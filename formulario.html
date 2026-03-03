@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Solicitação - Grupo Herculano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --error: #dc2626;
+            --error-light: #fee2e2;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-focus: #93c5fd;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(5, 150, 105, 0.08) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group label .required {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--card);
+            color: var(--text);
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Radio Buttons Custom */
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .radio-option label:hover {
+            border-color: var(--primary-light);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .radio-option input:checked + label {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        /* Campo Condicional */
+        .conditional-field {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Botão Submit */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        .btn-submit.loading .spinner {
+            display: block;
+        }
+
+        .btn-submit.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mensagens de Status */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: var(--error-light);
+            color: var(--error);
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-message {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .card-footer {
+            padding: 1rem 2rem;
+            background: var(--bg);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsivo */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .card-header {
+                padding: 1.5rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .radio-option {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>📋 Formulário de Solicitação</h1>
+                <p>Preencha os campos abaixo para enviar sua solicitação</p>
+            </div>
+
+            <div class="card-body">
+                <!-- Alertas -->
+                <div id="alertSuccess" class="alert alert-success">
+                    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Sucesso!</div>
+                        <div class="alert-message">Sua solicitação foi enviada com sucesso.</div>
+                    </div>
+                </div>
+
+                <div id="alertError" class="alert alert-error">
+                    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Erro!</div>
+                        <div class="alert-message" id="errorMessage">Não foi possível enviar a solicitação.</div>
+                    </div>
+                </div>
+
+                <!-- Formulário -->
+                <form id="solicitacaoForm">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo <span class="required">*</span></label>
+                        <input type="text" id="nome" class="form-control" placeholder="Digite seu nome completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-control" placeholder="seu.email@empresa.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setor">Setor <span class="required">*</span></label>
+                        <select id="setor" class="form-control" required>
+                            <option value="">Selecione o setor</option>
+                            <option value="TI">TI</option>
+                            <option value="RH">RH</option>
+                            <option value="Financeiro">Financeiro</option>
+                            <option value="Operação">Operação</option>
+                            <option value="Laboratório">Laboratório</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Administrativo">Administrativo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoSolicitacao">Tipo de Solicitação <span class="required">*</span></label>
+                        <select id="tipoSolicitacao" class="form-control" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="Acesso a Sistema">Acesso a Sistema</option>
+                            <option value="Equipamento">Equipamento</option>
+                            <option value="Suporte Técnico">Suporte Técnico</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo Radio com Condicional -->
+                    <div class="form-group">
+                        <label>Necessita Justificativa? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="justificativaNao" name="necessitaJustificativa" value="Não" checked>
+                                <label for="justificativaNao">Não</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="justificativaSim" name="necessitaJustificativa" value="Sim">
+                                <label for="justificativaSim">Sim</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campo Condicional - Justificativa -->
+                    <div id="campoJustificativa" class="conditional-field">
+                        <div class="form-group">
+                            <label for="justificativa">Motivo / Justificativa <span class="required">*</span></label>
+                            <textarea id="justificativa" class="form-control" placeholder="Descreva detalhadamente o motivo da sua solicitação..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nível de Urgência <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="urgenciaBaixa" name="urgencia" value="Baixa" checked>
+                                    <label for="urgenciaBaixa">🟢 Baixa</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="urgenciaMedia" name="urgencia" value="Média">
+                                    <label for="urgenciaMedia">🟡 Média</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="urgenciaAlta" name="urgencia" value="Alta">
+                                    <label for="urgenciaAlta">🟠 Alta</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="urgenciaCritica" name="urgencia" value="Crítica">
+                                    <label for="urgenciaCritica">🔴 Crítica</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campo Radio com Outro Condicional -->
+                    <div class="form-group">
+                        <label>Precisa de acompanhamento? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="acompanhamentoNao" name="acompanhamento" value="Não" checked>
+                                <label for="acompanhamentoNao">Não</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="acompanhamentoSim" name="acompanhamento" value="Sim">
+                                <label for="acompanhamentoSim">Sim</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campo Condicional - Acompanhamento -->
+                    <div id="campoAcompanhamento" class="conditional-field">
+                        <div class="form-group">
+                            <label for="telefone">Telefone para Contato <span class="required">*</span></label>
+                            <input type="tel" id="telefone" class="form-control" placeholder="(31) 99999-9999">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="melhorHorario">Melhor Horário para Contato</label>
+                            <select id="melhorHorario" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Manhã (8h-12h)">Manhã (8h-12h)</option>
+                                <option value="Tarde (13h-17h)">Tarde (13h-17h)</option>
+                                <option value="Qualquer horário">Qualquer horário</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observacoes">Observações Adicionais</label>
+                        <textarea id="observacoes" class="form-control" placeholder="Informações adicionais (opcional)..." rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnSubmit">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Enviar Solicitação</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                Grupo Herculano - Sistema de Solicitações TI
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURAÇÃO - URL DO WEBHOOK N8N
+        // ========================================
+        const WEBHOOK_URL = 'https://addamn8ndev.dpdns.org/webhook/formulario-solicitacao';
+
+        // ========================================
+        // CAMPOS CONDICIONAIS
+        // ========================================
+
+        // Justificativa
+        const radioJustificativa = document.querySelectorAll('input[name="necessitaJustificativa"]');
+        const campoJustificativa = document.getElementById('campoJustificativa');
+        const inputJustificativa = document.getElementById('justificativa');
+
+        radioJustificativa.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Sim') {
+                    campoJustificativa.classList.add('show');
+                    inputJustificativa.setAttribute('required', 'required');
+                } else {
+                    campoJustificativa.classList.remove('show');
+                    inputJustificativa.removeAttribute('required');
+                    inputJustificativa.value = '';
+                }
+            });
+        });
+
+        // Acompanhamento
+        const radioAcompanhamento = document.querySelectorAll('input[name="acompanhamento"]');
+        const campoAcompanhamento = document.getElementById('campoAcompanhamento');
+        const inputTelefone = document.getElementById('telefone');
+
+        radioAcompanhamento.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Sim') {
+                    campoAcompanhamento.classList.add('show');
+                    inputTelefone.setAttribute('required', 'required');
+                } else {
+                    campoAcompanhamento.classList.remove('show');
+                    inputTelefone.removeAttribute('required');
+                    inputTelefone.value = '';
+                    document.getElementById('melhorHorario').value = '';
+                }
+            });
+        });
+
+        // ========================================
+        // ENVIO DO FORMULÁRIO
+        // ========================================
+
+        const form = document.getElementById('solicitacaoForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const alertSuccess = document.getElementById('alertSuccess');
+        const alertError = document.getElementById('alertError');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Esconde alertas anteriores
+            alertSuccess.classList.remove('show');
+            alertError.classList.remove('show');
+
+            // Coleta os dados do formulário
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                setor: document.getElementById('setor').value,
+                tipo_solicitacao: document.getElementById('tipoSolicitacao').value,
+                necessita_justificativa: document.querySelector('input[name="necessitaJustificativa"]:checked').value,
+                justificativa: document.getElementById('justificativa').value || null,
+                urgencia: document.querySelector('input[name="urgencia"]:checked')?.value || 'Normal',
+                precisa_acompanhamento: document.querySelector('input[name="acompanhamento"]:checked').value,
+                telefone: document.getElementById('telefone').value || null,
+                melhor_horario: document.getElementById('melhorHorario').value || null,
+                observacoes: document.getElementById('observacoes').value || null,
+                data_solicitacao: new Date().toLocaleString('pt-BR'),
+                timestamp: new Date().toISOString()
+            };
+
+            // Loading state
+            btnSubmit.classList.add('loading');
+            btnSubmit.disabled = true;
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alertSuccess.classList.add('show');
+                    form.reset();
+                    // Esconde campos condicionais após reset
+                    campoJustificativa.classList.remove('show');
+                    campoAcompanhamento.classList.remove('show');
+                    // Scroll para o topo para ver mensagem de sucesso
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                errorMessage.textContent = `Erro ao enviar: ${error.message}`;
+                alertError.classList.add('show');
+            } finally {
+                btnSubmit.classList.remove('loading');
+                btnSubmit.disabled = false;
+            }
+        });
+
+        // ========================================
+        // MÁSCARA DE TELEFONE
+        // ========================================
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            
+            if (value.length > 2) {
+                value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
+            }
+            if (value.length > 10) {
+                value = value.slice(0, 10) + '-' + value.slice(10);
+            }
+            
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
