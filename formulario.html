@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relatório de Turno - Processo</title>
-    <link rel="stylesheet" href="styles-completo.css" />
     <style>
       * {
         margin: 0;
@@ -337,6 +336,36 @@
         box-shadow: 0 4px 12px rgba(240, 147, 251, 0.4);
       }
 
+      .btn-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Alertas */
+      .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .alert.show {
+        display: block;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
       /* Responsive */
       @media (max-width: 768px) {
         .container {
@@ -397,6 +426,14 @@
         <p class="required-indicator">* Indica uma pergunta obrigatória</p>
       </div>
 
+      <!-- Alertas -->
+      <div id="alertSuccess" class="alert alert-success">
+        ✅ Relatório enviado com sucesso!
+      </div>
+      <div id="alertError" class="alert alert-error">
+        ❌ Erro ao enviar relatório. <span id="errorMessage"></span>
+      </div>
+
       <form id="relatorioForm">
         <!-- Página 1: Informações Básicas -->
         <div class="form-page active" id="page1">
@@ -445,12 +482,7 @@
             <label>Técnico de Processo <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="tecnico"
-                  value="Ernane Silva"
-                  required
-                />
+                <input type="radio" name="tecnico" value="Ernane Silva" required />
                 <span>Ernane Silva</span>
               </label>
               <label class="radio-option">
@@ -484,30 +516,18 @@
           <h2 class="section-title">Britagem e Peneiramento</h2>
 
           <div class="form-group">
-            <label for="alimentacao_blending"
-              >Britagem Primária <span class="required">*</span></label
-            >
+            <label for="alimentacao_blending">Britagem Primária <span class="required">*</span></label>
             <p class="field-description">Alimentação (Blending):</p>
-            <input
-              type="text"
-              id="alimentacao_blending"
-              name="alimentacao_blending"
-              required
-            />
+            <input type="text" id="alimentacao_blending" name="alimentacao_blending" required />
           </div>
 
           <div class="form-group">
-            <label for="bt301"
-              >BT-301 (APF): <span class="required">*</span></label
-            >
+            <label for="bt301">BT-301 (APF): <span class="required">*</span></label>
             <input type="text" id="bt301" name="bt301" required />
           </div>
 
           <div class="form-group">
-            <label
-              >Linha 01 (Britagem e Classificação)
-              <span class="required">*</span></label
-            >
+            <label>Linha 01 (Britagem e Classificação) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="linha01" value="Operando" required />
@@ -520,7 +540,7 @@
               <label class="radio-option">
                 <input type="radio" name="linha01" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="linha01_outro" />
               </label>
             </div>
           </div>
@@ -529,33 +549,21 @@
             <label>Linha 1 - Alimentação (Blending)</label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha1_alimentacao"
-                  value="Pilha Britagem Primária"
-                />
+                <input type="radio" name="linha1_alimentacao" value="Pilha Britagem Primária" />
                 <span>Pilha Britagem Primária</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha1_alimentacao"
-                  value="ROM Rico"
-                />
+                <input type="radio" name="linha1_alimentacao" value="ROM Rico" />
                 <span>ROM Rico</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha1_alimentacao"
-                  value="Reprocessamento"
-                />
+                <input type="radio" name="linha1_alimentacao" value="Reprocessamento" />
                 <span>Reprocessamento</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="linha1_alimentacao" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="linha1_alimentacao_outro" />
               </label>
             </div>
           </div>
@@ -571,10 +579,7 @@
           </div>
 
           <div class="form-group">
-            <label
-              >Linha 2 (Britagem e Classificação)
-              <span class="required">*</span></label
-            >
+            <label>Linha 2 (Britagem e Classificação) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="linha02" value="Operando" required />
@@ -587,46 +592,30 @@
               <label class="radio-option">
                 <input type="radio" name="linha02" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="linha02_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label
-              >Linha 02 - Alimentação (Blending)
-              <span class="required">*</span></label
-            >
+            <label>Linha 02 - Alimentação (Blending) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha02_alimentacao"
-                  value="Pilha 301"
-                  required
-                />
+                <input type="radio" name="linha02_alimentacao" value="Pilha 301" required />
                 <span>Pilha 301</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha02_alimentacao"
-                  value="Pilha 302"
-                />
+                <input type="radio" name="linha02_alimentacao" value="Pilha 302" />
                 <span>Pilha 302</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="linha02_alimentacao"
-                  value="Pilha 303"
-                />
+                <input type="radio" name="linha02_alimentacao" value="Pilha 303" />
                 <span>Pilha 303</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="linha02_alimentacao" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="linha02_alimentacao_outro" />
               </label>
             </div>
           </div>
@@ -640,18 +629,13 @@
             <label>Britagem Terciária <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="britagem_terciaria"
-                  value="Operando"
-                  required
-                />
+                <input type="radio" name="britagem_terciaria" value="Operando" required />
                 <span>Operando</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="britagem_terciaria" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="britagem_terciaria_outro" />
               </label>
             </div>
           </div>
@@ -665,29 +649,20 @@
             <label>Britagem Quaternária <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="britagem_quaternaria"
-                  value="Operando"
-                  required
-                />
+                <input type="radio" name="britagem_quaternaria" value="Operando" required />
                 <span>Operando</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="britagem_quaternaria" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="britagem_quaternaria_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -696,36 +671,18 @@
           <h2 class="section-title">WDRE</h2>
 
           <div class="form-group">
-            <label for="densidade_alimentacao"
-              >Densidade Alimentação (g/cm3):
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_alimentacao"
-              name="densidade_alimentacao"
-              required
-            />
+            <label for="densidade_alimentacao">Densidade Alimentação (g/cm3): <span class="required">*</span></label>
+            <input type="text" id="densidade_alimentacao" name="densidade_alimentacao" required />
           </div>
 
           <div class="form-group">
-            <label for="num_rm"
-              >N° RM em operação <span class="required">*</span></label
-            >
+            <label for="num_rm">N° RM em operação <span class="required">*</span></label>
             <input type="text" id="num_rm" name="num_rm" required />
           </div>
 
           <div class="form-group">
-            <label for="taxa_alimentacao"
-              >Taxa de alimentação por RM:
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="taxa_alimentacao"
-              name="taxa_alimentacao"
-              required
-            />
+            <label for="taxa_alimentacao">Taxa de alimentação por RM: <span class="required">*</span></label>
+            <input type="text" id="taxa_alimentacao" name="taxa_alimentacao" required />
           </div>
 
           <div class="form-group">
@@ -752,69 +709,30 @@
           </div>
 
           <div class="form-group">
-            <label for="pressao_trabalho_wdre"
-              >Pressão de trabalho (kgf/cm2)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="pressao_trabalho_wdre"
-              name="pressao_trabalho_wdre"
-              required
-            />
+            <label for="pressao_trabalho_wdre">Pressão de trabalho (kgf/cm2) <span class="required">*</span></label>
+            <input type="text" id="pressao_trabalho_wdre" name="pressao_trabalho_wdre" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_alim_ciclonagem"
-              >Densidade Alimentação da Ciclonagem (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_alim_ciclonagem"
-              name="densidade_alim_ciclonagem"
-              required
-            />
+            <label for="densidade_alim_ciclonagem">Densidade Alimentação da Ciclonagem (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_alim_ciclonagem" name="densidade_alim_ciclonagem" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_overflow"
-              >Densidade Overflow (g/cm3) <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_overflow"
-              name="densidade_overflow"
-              required
-            />
+            <label for="densidade_overflow_wdre">Densidade Overflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_overflow_wdre" name="densidade_overflow_wdre" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_underflow"
-              >Densidade Underflow (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_underflow"
-              name="densidade_underflow"
-              required
-            />
+            <label for="densidade_underflow_wdre">Densidade Underflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_underflow_wdre" name="densidade_underflow_wdre" required />
           </div>
 
           <div class="form-group">
-            <label
-              >Fluxo do Overflow, direcionado para onde?
-              <span class="required">*</span></label
-            >
+            <label>Fluxo do Overflow, direcionado para onde? <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="fluxo_overflow"
-                  value="CX-101"
-                  required
-                />
+                <input type="radio" name="fluxo_overflow" value="CX-101" required />
                 <span>CX-101</span>
               </label>
               <label class="radio-option">
@@ -828,7 +746,7 @@
               <label class="radio-option">
                 <input type="radio" name="fluxo_overflow" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="fluxo_overflow_outro" />
               </label>
             </div>
           </div>
@@ -837,12 +755,7 @@
             <label>PD's em operação <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="pds_operacao"
-                  value="PD-12"
-                  required
-                />
+                <input type="radio" name="pds_operacao" value="PD-12" required />
                 <span>PD-12</span>
               </label>
               <label class="radio-option">
@@ -860,29 +773,20 @@
             <label>Amostrador TC-26 <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="amostrador_tc26"
-                  value="Operando"
-                  required
-                />
+                <input type="radio" name="amostrador_tc26" value="Operando" required />
                 <span>Operando</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="amostrador_tc26" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="amostrador_tc26_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -895,12 +799,7 @@
             <p class="field-description">N° de Ciclones em operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="ciclones_primaria"
-                  value="1"
-                  required
-                />
+                <input type="radio" name="ciclones_primaria" value="1" required />
                 <span>1</span>
               </label>
               <label class="radio-option">
@@ -927,55 +826,23 @@
           </div>
 
           <div class="form-group">
-            <label for="pressao_trabalho_espirais"
-              >Pressão de trabalho (kgf/cm2)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="pressao_trabalho_espirais"
-              name="pressao_trabalho_espirais"
-              required
-            />
+            <label for="pressao_trabalho_espirais">Pressão de trabalho (kgf/cm2) <span class="required">*</span></label>
+            <input type="text" id="pressao_trabalho_espirais" name="pressao_trabalho_espirais" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_alim_espirais"
-              >Densidade da Alimentação (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_alim_espirais"
-              name="densidade_alim_espirais"
-              required
-            />
+            <label for="densidade_alim_espirais">Densidade da Alimentação (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_alim_espirais" name="densidade_alim_espirais" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_overflow_espirais"
-              >Densidade do Overflow (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_overflow_espirais"
-              name="densidade_overflow_espirais"
-              required
-            />
+            <label for="densidade_overflow_espirais">Densidade do Overflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_overflow_espirais" name="densidade_overflow_espirais" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_underflow_espirais"
-              >Densidade do Underflow (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_underflow_espirais"
-              name="densidade_underflow_espirais"
-              required
-            />
+            <label for="densidade_underflow_espirais">Densidade do Underflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_underflow_espirais" name="densidade_underflow_espirais" required />
           </div>
 
           <div class="form-group">
@@ -1006,59 +873,28 @@
           </div>
 
           <div class="form-group">
-            <label for="pistas_rougher"
-              >N° de Pistas em operação <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="pistas_rougher"
-              name="pistas_rougher"
-              required
-            />
+            <label for="pistas_rougher">N° de Pistas em operação <span class="required">*</span></label>
+            <input type="text" id="pistas_rougher" name="pistas_rougher" required />
           </div>
 
           <div class="form-group">
-            <label for="ton_pista_rougher"
-              >Ton/pista <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="ton_pista_rougher"
-              name="ton_pista_rougher"
-              required
-            />
+            <label for="ton_pista_rougher">Ton/pista <span class="required">*</span></label>
+            <input type="text" id="ton_pista_rougher" name="ton_pista_rougher" required />
           </div>
 
           <div class="form-group">
-            <label for="pistas_cleaner"
-              >Espirais - Cleaner <span class="required">*</span></label
-            >
+            <label for="pistas_cleaner">Espirais - Cleaner <span class="required">*</span></label>
             <p class="field-description">N° de Pistas em operação</p>
-            <input
-              type="text"
-              id="pistas_cleaner"
-              name="pistas_cleaner"
-              required
-            />
+            <input type="text" id="pistas_cleaner" name="pistas_cleaner" required />
           </div>
 
           <div class="form-group">
-            <label for="ton_pista_cleaner"
-              >Ton/pista <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="ton_pista_cleaner"
-              name="ton_pista_cleaner"
-              required
-            />
+            <label for="ton_pista_cleaner">Ton/pista <span class="required">*</span></label>
+            <input type="text" id="ton_pista_cleaner" name="ton_pista_cleaner" required />
           </div>
 
           <div class="form-group">
-            <label
-              >N° Ciclones em operação (BP-07)
-              <span class="required">*</span></label
-            >
+            <label>N° Ciclones em operação (BP-07) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="ciclones_bp07" value="1" required />
@@ -1072,26 +908,15 @@
           </div>
 
           <div class="form-group">
-            <label for="pressao_bp07"
-              >Pressão de trabalho (HC BP-07)
-              <span class="required">*</span></label
-            >
+            <label for="pressao_bp07">Pressão de trabalho (HC BP-07) <span class="required">*</span></label>
             <input type="text" id="pressao_bp07" name="pressao_bp07" required />
           </div>
 
           <div class="form-group">
-            <label
-              >PD's em Operação (Concentrado)
-              <span class="required">*</span></label
-            >
+            <label>PD's em Operação (Concentrado) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="pds_concentrado"
-                  value="PD-05"
-                  required
-                />
+                <input type="radio" name="pds_concentrado" value="PD-05" required />
                 <span>PD-05</span>
               </label>
               <label class="radio-option">
@@ -1099,11 +924,7 @@
                 <span>PD-06</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="pds_concentrado"
-                  value="PD-05 + PD-06"
-                />
+                <input type="radio" name="pds_concentrado" value="PD-05 + PD-06" />
                 <span>PD-05 + PD-06</span>
               </label>
             </div>
@@ -1124,9 +945,7 @@
           </div>
 
           <div class="form-group">
-            <label
-              >PD's em operação (Rejeito) <span class="required">*</span></label
-            >
+            <label>PD's em operação (Rejeito) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="pds_rejeito" value="PD-06" required />
@@ -1147,7 +966,7 @@
               <label class="radio-option">
                 <input type="radio" name="pds_rejeito" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="pds_rejeito_outro" />
               </label>
             </div>
           </div>
@@ -1156,32 +975,19 @@
             <label>Amostrador TC-14 <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="amostrador_tc14"
-                  value="Operando"
-                  required
-                />
+                <input type="radio" name="amostrador_tc14" value="Operando" required />
                 <span>Operando</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="amostrador_tc14"
-                  value="Indisponível"
-                />
+                <input type="radio" name="amostrador_tc14" value="Indisponível" />
                 <span>Indisponível</span>
               </label>
             </div>
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -1194,12 +1000,7 @@
             <p class="field-description">Rota em Operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="whc_rota"
-                  value="Rota 1 (antiga)"
-                  required
-                />
+                <input type="radio" name="whc_rota" value="Rota 1 (antiga)" required />
                 <span>Rota 1 (antiga)</span>
               </label>
               <label class="radio-option">
@@ -1211,9 +1012,7 @@
 
           <div class="form-group">
             <label>WHC - Campo Magnético <span class="required">*</span></label>
-            <p class="matrix-note">
-              Selecione uma opção para cada equipamento:
-            </p>
+            <p class="matrix-note">Selecione uma opção para cada equipamento:</p>
             <div class="matrix-grid">
               <div class="matrix-header">
                 <div></div>
@@ -1225,236 +1024,97 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-01</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc01"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc01" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc01" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc01" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc01" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc01" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc01" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc01" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-02</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc02"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc02" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc02" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc02" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc02" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc02" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc02" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc02" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-08</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc08"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc08" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc08" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc08" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc08" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc08" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc08" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc08" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-10</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc10"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc10" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc10" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc10" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc10" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc10" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc10" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc10" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-11</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc11"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc11" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc11" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc11" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc11" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc11" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc11" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc11" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-03</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc03"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc03" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc03" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc03" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc03" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc03" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc03" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc03" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-04</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc04"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc04" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc04" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc04" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc04" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc04" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc04" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc04" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-05</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc05"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc05" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc05" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc05" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc05" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc05" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc05" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc05" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-06</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc06"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc06" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc06" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc06" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc06" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc06" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc06" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc06" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-07</div>
-                <div>
-                  <input
-                    type="radio"
-                    name="campo_whc07"
-                    value="Alto"
-                    required
-                  />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc07" value="Médio" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc07" value="Baixo" />
-                </div>
-                <div>
-                  <input type="radio" name="campo_whc07" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_whc07" value="Alto" required /></div>
+                <div><input type="radio" name="campo_whc07" value="Médio" /></div>
+                <div><input type="radio" name="campo_whc07" value="Baixo" /></div>
+                <div><input type="radio" name="campo_whc07" value="Disponível" /></div>
               </div>
 
               <div class="matrix-row">
                 <div class="matrix-label">GHX</div>
-                <div>
-                  <input type="radio" name="campo_ghx" value="Alto" required />
-                </div>
+                <div><input type="radio" name="campo_ghx" value="Alto" required /></div>
                 <div><input type="radio" name="campo_ghx" value="Médio" /></div>
                 <div><input type="radio" name="campo_ghx" value="Baixo" /></div>
-                <div>
-                  <input type="radio" name="campo_ghx" value="Disponível" />
-                </div>
+                <div><input type="radio" name="campo_ghx" value="Disponível" /></div>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label
-              >WHC - Água de Lavagem (Médio)
-              <span class="required">*</span></label
-            >
-            <p class="matrix-note">
-              Selecione uma opção para cada equipamento:
-            </p>
+            <label>WHC - Água de Lavagem (Médio) <span class="required">*</span></label>
+            <p class="matrix-note">Selecione uma opção para cada equipamento:</p>
             <div class="matrix-grid">
               <div class="matrix-header">
                 <div></div>
@@ -1467,9 +1127,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-01</div>
-                <div>
-                  <input type="radio" name="agua_whc01" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc01" value="4" required /></div>
                 <div><input type="radio" name="agua_whc01" value="3" /></div>
                 <div><input type="radio" name="agua_whc01" value="2" /></div>
                 <div><input type="radio" name="agua_whc01" value="1" /></div>
@@ -1478,9 +1136,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-02</div>
-                <div>
-                  <input type="radio" name="agua_whc02" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc02" value="4" required /></div>
                 <div><input type="radio" name="agua_whc02" value="3" /></div>
                 <div><input type="radio" name="agua_whc02" value="2" /></div>
                 <div><input type="radio" name="agua_whc02" value="1" /></div>
@@ -1489,9 +1145,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-08</div>
-                <div>
-                  <input type="radio" name="agua_whc08" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc08" value="4" required /></div>
                 <div><input type="radio" name="agua_whc08" value="3" /></div>
                 <div><input type="radio" name="agua_whc08" value="2" /></div>
                 <div><input type="radio" name="agua_whc08" value="1" /></div>
@@ -1500,9 +1154,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-10</div>
-                <div>
-                  <input type="radio" name="agua_whc10" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc10" value="4" required /></div>
                 <div><input type="radio" name="agua_whc10" value="3" /></div>
                 <div><input type="radio" name="agua_whc10" value="2" /></div>
                 <div><input type="radio" name="agua_whc10" value="1" /></div>
@@ -1511,9 +1163,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-11</div>
-                <div>
-                  <input type="radio" name="agua_whc11" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc11" value="4" required /></div>
                 <div><input type="radio" name="agua_whc11" value="3" /></div>
                 <div><input type="radio" name="agua_whc11" value="2" /></div>
                 <div><input type="radio" name="agua_whc11" value="1" /></div>
@@ -1522,9 +1172,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-03</div>
-                <div>
-                  <input type="radio" name="agua_whc03" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc03" value="4" required /></div>
                 <div><input type="radio" name="agua_whc03" value="3" /></div>
                 <div><input type="radio" name="agua_whc03" value="2" /></div>
                 <div><input type="radio" name="agua_whc03" value="1" /></div>
@@ -1533,9 +1181,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-04</div>
-                <div>
-                  <input type="radio" name="agua_whc04" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc04" value="4" required /></div>
                 <div><input type="radio" name="agua_whc04" value="3" /></div>
                 <div><input type="radio" name="agua_whc04" value="2" /></div>
                 <div><input type="radio" name="agua_whc04" value="1" /></div>
@@ -1544,9 +1190,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-05</div>
-                <div>
-                  <input type="radio" name="agua_whc05" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc05" value="4" required /></div>
                 <div><input type="radio" name="agua_whc05" value="3" /></div>
                 <div><input type="radio" name="agua_whc05" value="2" /></div>
                 <div><input type="radio" name="agua_whc05" value="1" /></div>
@@ -1555,9 +1199,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-06</div>
-                <div>
-                  <input type="radio" name="agua_whc06" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc06" value="4" required /></div>
                 <div><input type="radio" name="agua_whc06" value="3" /></div>
                 <div><input type="radio" name="agua_whc06" value="2" /></div>
                 <div><input type="radio" name="agua_whc06" value="1" /></div>
@@ -1566,9 +1208,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">WHC-07</div>
-                <div>
-                  <input type="radio" name="agua_whc07" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_whc07" value="4" required /></div>
                 <div><input type="radio" name="agua_whc07" value="3" /></div>
                 <div><input type="radio" name="agua_whc07" value="2" /></div>
                 <div><input type="radio" name="agua_whc07" value="1" /></div>
@@ -1577,9 +1217,7 @@
 
               <div class="matrix-row">
                 <div class="matrix-label">GHX</div>
-                <div>
-                  <input type="radio" name="agua_ghx" value="4" required />
-                </div>
+                <div><input type="radio" name="agua_ghx" value="4" required /></div>
                 <div><input type="radio" name="agua_ghx" value="3" /></div>
                 <div><input type="radio" name="agua_ghx" value="2" /></div>
                 <div><input type="radio" name="agua_ghx" value="1" /></div>
@@ -1592,76 +1230,39 @@
             <label>Teste da Peneirinha <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="teste_peneirinha"
-                  value="Realizado - Sem Contaminação"
-                  required
-                />
+                <input type="radio" name="teste_peneirinha" value="Realizado - Sem Contaminação" required />
                 <span>Realizado - Sem Contaminação</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="teste_peneirinha"
-                  value="Realizado - Identificado contaminação"
-                />
+                <input type="radio" name="teste_peneirinha" value="Realizado - Identificado contaminação" />
                 <span>Realizado - Identificado contaminação</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="teste_peneirinha" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="teste_peneirinha_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="densidade_whc_rougher"
-              >Densidade Alimentação WHC-Rougher (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_whc_rougher"
-              name="densidade_whc_rougher"
-              required
-            />
+            <label for="densidade_whc_rougher">Densidade Alimentação WHC-Rougher (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_whc_rougher" name="densidade_whc_rougher" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_whc_scavenger"
-              >Densidade Alimentação WHC-Scavenger (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_whc_scavenger"
-              name="densidade_whc_scavenger"
-              required
-            />
+            <label for="densidade_whc_scavenger">Densidade Alimentação WHC-Scavenger (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_whc_scavenger" name="densidade_whc_scavenger" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_whc_cleaner"
-              >Densidade Alimentação WHC-Cleaner (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_whc_cleaner"
-              name="densidade_whc_cleaner"
-              required
-            />
+            <label for="densidade_whc_cleaner">Densidade Alimentação WHC-Cleaner (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_whc_cleaner" name="densidade_whc_cleaner" required />
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -1670,18 +1271,11 @@
           <h2 class="section-title">Ciclonagem / Espessamento / Floculante</h2>
 
           <div class="form-group">
-            <label
-              >Ciclonagem de Rejeitos <span class="required">*</span></label
-            >
+            <label>Ciclonagem de Rejeitos <span class="required">*</span></label>
             <p class="field-description">N° de Ciclones em Operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="ciclones_rejeitos"
-                  value="1"
-                  required
-                />
+                <input type="radio" name="ciclones_rejeitos" value="1" required />
                 <span>1</span>
               </label>
               <label class="radio-option">
@@ -1716,55 +1310,23 @@
           </div>
 
           <div class="form-group">
-            <label for="pressao_ciclonagem"
-              >Pressão de trabalho (kgf/cm2)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="pressao_ciclonagem"
-              name="pressao_ciclonagem"
-              required
-            />
+            <label for="pressao_ciclonagem">Pressão de trabalho (kgf/cm2) <span class="required">*</span></label>
+            <input type="text" id="pressao_ciclonagem" name="pressao_ciclonagem" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_alimentação"
-              >Densidade de Alimentação (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_alimentação"
-              name="densidade_alimentação"
-              required
-            />
+            <label for="densidade_alimentacao_ciclo">Densidade de Alimentação (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_alimentacao_ciclo" name="densidade_alimentacao_ciclo" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_underflow"
-              >Densidade de Underflow (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_underflow"
-              name="densidade_underflow"
-              required
-            />
+            <label for="densidade_underflow_ciclo">Densidade de Underflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_underflow_ciclo" name="densidade_underflow_ciclo" required />
           </div>
 
           <div class="form-group">
-            <label for="densidade_overflow"
-              >Densidade de Overflow (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_overflow"
-              name="densidade_overflow"
-              required
-            />
+            <label for="densidade_overflow_ciclo">Densidade de Overflow (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_overflow_ciclo" name="densidade_overflow_ciclo" required />
           </div>
 
           <div class="form-group">
@@ -1772,82 +1334,47 @@
             <p class="field-description">Floculante Utilizado</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="floculante_utilizado"
-                  value="SNF AN 840 XV"
-                  required
-                />
+                <input type="radio" name="floculante_utilizado" value="SNF AN 840 XV" required />
                 <span>SNF AN 840 XV</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="floculante_utilizado"
-                  value="Solenis Zalta 1630 DK"
-                />
+                <input type="radio" name="floculante_utilizado" value="Solenis Zalta 1630 DK" />
                 <span>Solenis Zalta 1630 DK</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="floculante_utilizado" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="floculante_utilizado_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="dosagem_rejeito"
-              >Dosagem de Floculante (g/t)
-              <span class="required">*</span></label
-            >
+            <label for="dosagem_rejeito">Dosagem de Floculante (g/t) <span class="required">*</span></label>
             <p class="field-description">ES-01 (Rejeito)</p>
-            <input
-              type="text"
-              id="dosagem_rejeito"
-              name="dosagem_rejeito"
-              required
-            />
+            <input type="text" id="dosagem_rejeito" name="dosagem_rejeito" required />
           </div>
 
           <div class="form-group">
             <label for="dosagem_concentrado">Dosagem de Floculante (g/t)</label>
             <p class="field-description">ES-02 (Concentrado)</p>
-            <input
-              type="text"
-              id="dosagem_concentrado"
-              name="dosagem_concentrado"
-            />
+            <input type="text" id="dosagem_concentrado" name="dosagem_concentrado" />
           </div>
 
           <div class="form-group">
-            <label for="dosagem_medio"
-              >Dosagem de Floculante (g/t)
-              <span class="required">*</span></label
-            >
+            <label for="dosagem_medio">Dosagem de Floculante (g/t) <span class="required">*</span></label>
             <p class="field-description">ES-03 (Médio)</p>
-            <input
-              type="text"
-              id="dosagem_medio"
-              name="dosagem_medio"
-              required
-            />
+            <input type="text" id="dosagem_medio" name="dosagem_medio" required />
           </div>
 
           <div class="form-group">
-            <label for="dosagem_novo"
-              >Dosagem de Floculante (g/t)
-              <span class="required">*</span></label
-            >
+            <label for="dosagem_novo">Dosagem de Floculante (g/t) <span class="required">*</span></label>
             <p class="field-description">ES-04 (Novo)</p>
             <input type="text" id="dosagem_novo" name="dosagem_novo" required />
           </div>
 
           <div class="form-group">
-            <label
-              >Turbidez durante o turno? Se sim, marque outro e relate qual(is).
-              <span class="required">*</span></label
-            >
+            <label>Turbidez durante o turno? Se sim, marque outro e relate qual(is). <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="turbidez" value="Não" required />
@@ -1856,18 +1383,14 @@
               <label class="radio-option">
                 <input type="radio" name="turbidez" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="turbidez_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -1880,12 +1403,7 @@
             <p class="field-description">N° de Filtros em operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="filtros_ceramica"
-                  value="1"
-                  required
-                />
+                <input type="radio" name="filtros_ceramica" value="1" required />
                 <span>1</span>
               </label>
               <label class="radio-option">
@@ -1903,15 +1421,13 @@
               <label class="radio-option">
                 <input type="radio" name="filtros_ceramica" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="filtros_ceramica_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label
-              >Filtro Disco (Brasfelt) <span class="required">*</span></label
-            >
+            <label>Filtro Disco (Brasfelt) <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="filtro_disco" value="1" required />
@@ -1924,22 +1440,14 @@
               <label class="radio-option">
                 <input type="radio" name="filtro_disco" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="filtro_disco_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="densidade_rejeito"
-              >Densidade Alimentação Rejeito (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_rejeito"
-              name="densidade_rejeito"
-              required
-            />
+            <label for="densidade_rejeito_filtragem">Densidade Alimentação Rejeito (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_rejeito_filtragem" name="densidade_rejeito_filtragem" required />
           </div>
 
           <div class="form-group">
@@ -1947,12 +1455,7 @@
             <p class="field-description">N° de Filtros em Operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="filtros_concentrado"
-                  value="1"
-                  required
-                />
+                <input type="radio" name="filtros_concentrado" value="1" required />
                 <span>1</span>
               </label>
               <label class="radio-option">
@@ -1966,40 +1469,27 @@
               <label class="radio-option">
                 <input type="radio" name="filtros_concentrado" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="filtros_concentrado_outro" />
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="densidade_filtragem_concentrado"
-              >Densidade Alimentação Filtragem Concentrado (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_filtragem_concentrado"
-              name="densidade_filtragem_concentrado"
-              required
-            />
+            <label for="densidade_filtragem_concentrado">Densidade Alimentação Filtragem Concentrado (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_filtragem_concentrado" name="densidade_filtragem_concentrado" required />
           </div>
 
           <div class="form-group">
             <label>Amostrador TC-20 <span class="required">*</span></label>
             <div class="radio-group">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="amostrador_tc20"
-                  value="Operando"
-                  required
-                />
+                <input type="radio" name="amostrador_tc20" value="Operando" required />
                 <span>Operando</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="amostrador_tc20" value="Outro" />
                 <span>Outro:</span>
-                <input type="text" class="other-input" />
+                <input type="text" class="other-input" name="amostrador_tc20_outro" />
               </label>
             </div>
           </div>
@@ -2024,25 +1514,13 @@
           </div>
 
           <div class="form-group">
-            <label for="densidade_filtro_prensa"
-              >Densidade Alimentação Filtro Prensa (g/cm3)
-              <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="densidade_filtro_prensa"
-              name="densidade_filtro_prensa"
-              required
-            />
+            <label for="densidade_filtro_prensa">Densidade Alimentação Filtro Prensa (g/cm3) <span class="required">*</span></label>
+            <input type="text" id="densidade_filtro_prensa" name="densidade_filtro_prensa" required />
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="button" class="btn-next" onclick="nextPage()">
-              Avançar
-            </button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="button" class="btn-next" onclick="nextPage()">Avançar</button>
           </div>
         </div>
 
@@ -2051,39 +1529,38 @@
           <h2 class="section-title">Ocorrências</h2>
 
           <div class="form-group">
-            <label for="ocorrencias"
-              >Relate as principais ocorrências e dificuldades do turno.</label
-            >
-            <textarea
-              id="ocorrencias"
-              name="ocorrencias"
-              rows="10"
-              placeholder="Descreva aqui as ocorrências, dificuldades, paradas de equipamento, manutenções realizadas, problemas operacionais, etc."
-            ></textarea>
+            <label for="ocorrencias">Relate as principais ocorrências e dificuldades do turno.</label>
+            <textarea id="ocorrencias" name="ocorrencias" rows="10" placeholder="Descreva aqui as ocorrências, dificuldades, paradas de equipamento, manutenções realizadas, problemas operacionais, etc."></textarea>
           </div>
 
           <div class="form-navigation">
-            <button type="button" class="btn-back" onclick="prevPage()">
-              Voltar
-            </button>
-            <button type="submit" class="btn-submit">Enviar</button>
+            <button type="button" class="btn-back" onclick="prevPage()">Voltar</button>
+            <button type="submit" class="btn-submit" id="btnSubmit">Enviar</button>
           </div>
         </div>
       </form>
     </div>
 
-    <script src="script-completo.js"></script>
     <script>
-      // Estado atual do formulário
+      // ========================================
+      // CONFIGURAÇÃO - URL DO WEBHOOK N8N
+      // ========================================
+      const WEBHOOK_URL = 'https://addamn8ndev.dpdns.org/webhook/relatorio-turno';
+
+      // ========================================
+      // ESTADO DO FORMULÁRIO
+      // ========================================
       let currentPage = 1;
       const totalPages = 8;
 
-      // Inicializar formulário
-      document.addEventListener("DOMContentLoaded", function () {
+      // ========================================
+      // INICIALIZAÇÃO
+      // ========================================
+      document.addEventListener('DOMContentLoaded', function() {
         // Setar data atual
-        const dataInput = document.getElementById("data");
+        const dataInput = document.getElementById('data');
         if (dataInput) {
-          const hoje = new Date().toISOString().split("T")[0];
+          const hoje = new Date().toISOString().split('T')[0];
           dataInput.value = hoje;
         }
 
@@ -2094,35 +1571,27 @@
         showPage(1);
       });
 
-      // Mostrar página específica
+      // ========================================
+      // NAVEGAÇÃO DE PÁGINAS
+      // ========================================
       function showPage(pageNumber) {
-        // Esconder todas as páginas
-        document.querySelectorAll(".form-page").forEach((page) => {
-          page.classList.remove("active");
+        document.querySelectorAll('.form-page').forEach(page => {
+          page.classList.remove('active');
         });
 
-        // Mostrar página atual
         const page = document.getElementById(`page${pageNumber}`);
         if (page) {
-          page.classList.add("active");
+          page.classList.add('active');
           currentPage = pageNumber;
-
-          // Scroll para o topo
           window.scrollTo(0, 0);
         }
       }
 
-      // Avançar para próxima página
       function nextPage() {
-        const currentPageElement = document.getElementById(
-          `page${currentPage}`,
-        );
+        const currentPageElement = document.getElementById(`page${currentPage}`);
 
-        // Validar campos obrigatórios da página atual
         if (!validateCurrentPage(currentPageElement)) {
-          alert(
-            "Por favor, preencha todos os campos obrigatórios antes de avançar.",
-          );
+          alert('Por favor, preencha todos os campos obrigatórios antes de avançar.');
           return;
         }
 
@@ -2131,18 +1600,18 @@
         }
       }
 
-      // Voltar para página anterior
       function prevPage() {
         if (currentPage > 1) {
           showPage(currentPage - 1);
         }
       }
 
-      // Validar página atual
+      // ========================================
+      // VALIDAÇÃO
+      // ========================================
       function validateCurrentPage(pageElement) {
-        // Validar campos de texto obrigatórios
         const requiredTextInputs = pageElement.querySelectorAll(
-          'input[required][type="text"], input[required][type="date"], input[required][type="number"]',
+          'input[required][type="text"], input[required][type="date"], input[required][type="number"]'
         );
         for (let input of requiredTextInputs) {
           if (!input.value.trim()) {
@@ -2151,26 +1620,16 @@
           }
         }
 
-        // Validar radio buttons obrigatórios
         const requiredRadioGroups = new Set();
-        pageElement
-          .querySelectorAll('input[required][type="radio"]')
-          .forEach((radio) => {
-            requiredRadioGroups.add(radio.name);
-          });
+        pageElement.querySelectorAll('input[required][type="radio"]').forEach(radio => {
+          requiredRadioGroups.add(radio.name);
+        });
 
         for (let groupName of requiredRadioGroups) {
-          const checked = pageElement.querySelector(
-            `input[name="${groupName}"]:checked`,
-          );
+          const checked = pageElement.querySelector(`input[name="${groupName}"]:checked`);
           if (!checked) {
-            // Focar no primeiro radio do grupo
-            const firstRadio = pageElement.querySelector(
-              `input[name="${groupName}"]`,
-            );
-            if (firstRadio) {
-              firstRadio.focus();
-            }
+            const firstRadio = pageElement.querySelector(`input[name="${groupName}"]`);
+            if (firstRadio) firstRadio.focus();
             return false;
           }
         }
@@ -2178,189 +1637,163 @@
         return true;
       }
 
-      // Configurar campos "Outro"
+      // ========================================
+      // CAMPOS "OUTRO"
+      // ========================================
       function setupOtherFields() {
-        document.querySelectorAll(".radio-option").forEach((option) => {
+        document.querySelectorAll('.radio-option').forEach(option => {
           const radioInput = option.querySelector('input[type="radio"]');
-          const otherInput = option.querySelector(".other-input");
+          const otherInput = option.querySelector('.other-input');
 
           if (radioInput && otherInput) {
-            // Habilitar/desabilitar campo de texto conforme seleção
-            radioInput.addEventListener("change", function () {
+            radioInput.addEventListener('change', function() {
               if (this.checked) {
                 otherInput.disabled = false;
                 otherInput.focus();
               }
             });
 
-            // Marcar radio quando digitar no campo de texto
-            otherInput.addEventListener("focus", function () {
+            otherInput.addEventListener('focus', function() {
               radioInput.checked = true;
             });
 
-            // Desabilitar outros campos "Outro" do mesmo grupo
-            radioInput.addEventListener("change", function () {
+            radioInput.addEventListener('change', function() {
               if (this.checked) {
-                // Desabilitar outros campos "Outro" do mesmo grupo
                 const groupName = this.name;
-                document
-                  .querySelectorAll(`input[name="${groupName}"]`)
-                  .forEach((radio) => {
-                    const parentOption = radio.closest(".radio-option");
-                    const otherField =
-                      parentOption?.querySelector(".other-input");
-                    if (otherField && radio !== radioInput) {
-                      otherField.disabled = true;
-                      otherField.value = "";
-                    }
-                  });
+                document.querySelectorAll(`input[name="${groupName}"]`).forEach(radio => {
+                  const parentOption = radio.closest('.radio-option');
+                  const otherField = parentOption?.querySelector('.other-input');
+                  if (otherField && radio !== radioInput) {
+                    otherField.disabled = true;
+                    otherField.value = '';
+                  }
+                });
               }
             });
           }
         });
       }
 
-      // Submeter formulário
-      document
-        .getElementById("relatorioForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+      // ========================================
+      // COLETA DE DADOS DO FORMULÁRIO
+      // ========================================
+      function collectFormData() {
+        const formData = new FormData(document.getElementById('relatorioForm'));
+        const data = {};
 
-          // Validar última página
-          const lastPage = document.getElementById(`page${totalPages}`);
-          if (!validateCurrentPage(lastPage)) {
-            alert(
-              "Por favor, preencha todos os campos obrigatórios antes de enviar.",
-            );
-            return;
+        // Converter FormData para objeto
+        for (let [key, value] of formData.entries()) {
+          data[key] = value;
+        }
+
+        // Adicionar valores dos campos "Outro"
+        document.querySelectorAll('.other-input').forEach(input => {
+          const radioParent = input.closest('.radio-option');
+          const radio = radioParent?.querySelector('input[type="radio"]');
+          if (radio && radio.checked && input.value) {
+            data[radio.name] = input.value;
           }
-
-          // Coletar dados do formulário
-          const formData = new FormData(this);
-          const data = {};
-
-          // Converter FormData para objeto
-          for (let [key, value] of formData.entries()) {
-            data[key] = value;
-          }
-
-          // Adicionar valores dos campos "Outro"
-          document.querySelectorAll(".other-input").forEach((input) => {
-            const radioParent = input.closest(".radio-option");
-            const radio = radioParent?.querySelector('input[type="radio"]');
-            if (radio && radio.checked && input.value) {
-              data[radio.name] = input.value;
-            }
-          });
-
-          // Coletar dados das matrizes WHC
-          const whcEquipments = [
-            "whc01",
-            "whc02",
-            "whc08",
-            "whc10",
-            "whc11",
-            "whc03",
-            "whc04",
-            "whc05",
-            "whc06",
-            "whc07",
-            "ghx",
-          ];
-
-          data.whc_campo_magnetico = {};
-          data.whc_agua_lavagem = {};
-
-          whcEquipments.forEach((equipment) => {
-            const campoRadio = document.querySelector(
-              `input[name="campo_${equipment}"]:checked`,
-            );
-            const aguaRadio = document.querySelector(
-              `input[name="agua_${equipment}"]:checked`,
-            );
-
-            if (campoRadio) {
-              data.whc_campo_magnetico[equipment] = campoRadio.value;
-            }
-            if (aguaRadio) {
-              data.whc_agua_lavagem[equipment] = aguaRadio.value;
-            }
-          });
-
-          // Aqui você pode enviar os dados para um servidor
-          console.log("Dados do formulário:", data);
-
-          // Exibir mensagem de sucesso
-          alert("Relatório enviado com sucesso!");
-
-          // Opcional: resetar formulário
-          // this.reset();
-          // showPage(1);
         });
 
-      // Atalhos de teclado
-      document.addEventListener("keydown", function (e) {
-        // Ctrl + Seta Direita = Próxima página
-        if (e.ctrlKey && e.key === "ArrowRight") {
+        // Coletar dados das matrizes WHC
+        const whcEquipments = ['whc01', 'whc02', 'whc08', 'whc10', 'whc11', 'whc03', 'whc04', 'whc05', 'whc06', 'whc07', 'ghx'];
+
+        data.whc_campo_magnetico = {};
+        data.whc_agua_lavagem = {};
+
+        whcEquipments.forEach(equipment => {
+          const campoRadio = document.querySelector(`input[name="campo_${equipment}"]:checked`);
+          const aguaRadio = document.querySelector(`input[name="agua_${equipment}"]:checked`);
+
+          if (campoRadio) {
+            data.whc_campo_magnetico[equipment] = campoRadio.value;
+          }
+          if (aguaRadio) {
+            data.whc_agua_lavagem[equipment] = aguaRadio.value;
+          }
+        });
+
+        // Adicionar timestamp
+        data.data_envio = new Date().toLocaleString('pt-BR');
+        data.timestamp = new Date().toISOString();
+
+        return data;
+      }
+
+      // ========================================
+      // ENVIO DO FORMULÁRIO PARA WEBHOOK
+      // ========================================
+      document.getElementById('relatorioForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Validar última página
+        const lastPage = document.getElementById(`page${totalPages}`);
+        if (!validateCurrentPage(lastPage)) {
+          alert('Por favor, preencha todos os campos obrigatórios antes de enviar.');
+          return;
+        }
+
+        // Esconder alertas anteriores
+        document.getElementById('alertSuccess').classList.remove('show');
+        document.getElementById('alertError').classList.remove('show');
+
+        // Coletar dados
+        const formData = collectFormData();
+
+        // Desabilitar botão
+        const btnSubmit = document.getElementById('btnSubmit');
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Enviando...';
+
+        try {
+          const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+          });
+
+          if (response.ok) {
+            document.getElementById('alertSuccess').classList.add('show');
+            window.scrollTo(0, 0);
+            
+            // Opcional: resetar formulário após sucesso
+            // document.getElementById('relatorioForm').reset();
+            // showPage(1);
+          } else {
+            throw new Error(`Erro HTTP: ${response.status}`);
+          }
+        } catch (error) {
+          console.error('Erro:', error);
+          document.getElementById('errorMessage').textContent = error.message;
+          document.getElementById('alertError').classList.add('show');
+          window.scrollTo(0, 0);
+        } finally {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = 'Enviar';
+        }
+      });
+
+      // ========================================
+      // ATALHOS DE TECLADO
+      // ========================================
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'ArrowRight') {
           e.preventDefault();
           nextPage();
         }
 
-        // Ctrl + Seta Esquerda = Página anterior
-        if (e.ctrlKey && e.key === "ArrowLeft") {
+        if (e.ctrlKey && e.key === 'ArrowLeft') {
           e.preventDefault();
           prevPage();
         }
 
-        // Ctrl + Enter = Enviar (se na última página)
-        if (e.ctrlKey && e.key === "Enter" && currentPage === totalPages) {
+        if (e.ctrlKey && e.key === 'Enter' && currentPage === totalPages) {
           e.preventDefault();
-          document
-            .getElementById("relatorioForm")
-            .dispatchEvent(new Event("submit"));
+          document.getElementById('relatorioForm').dispatchEvent(new Event('submit'));
         }
       });
-
-      // Salvar progresso no localStorage (opcional)
-      function saveProgress() {
-        const formData = new FormData(document.getElementById("relatorioForm"));
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-          data[key] = value;
-        }
-        localStorage.setItem("relatorioTurnoProgress", JSON.stringify(data));
-        localStorage.setItem("relatorioTurnoPage", currentPage);
-      }
-
-      // Carregar progresso do localStorage (opcional)
-      function loadProgress() {
-        const savedData = localStorage.getItem("relatorioTurnoProgress");
-        const savedPage = localStorage.getItem("relatorioTurnoPage");
-
-        if (savedData) {
-          const data = JSON.parse(savedData);
-          for (let [key, value] of Object.entries(data)) {
-            const input = document.querySelector(`[name="${key}"]`);
-            if (input) {
-              if (input.type === "radio") {
-                const radioToCheck = document.querySelector(
-                  `[name="${key}"][value="${value}"]`,
-                );
-                if (radioToCheck) radioToCheck.checked = true;
-              } else {
-                input.value = value;
-              }
-            }
-          }
-        }
-
-        if (savedPage) {
-          showPage(parseInt(savedPage));
-        }
-      }
-
-      // Auto-salvar a cada 30 segundos (opcional)
-      // setInterval(saveProgress, 30000);
     </script>
   </body>
 </html>
