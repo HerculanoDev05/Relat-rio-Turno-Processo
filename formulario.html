@@ -1,624 +1,2366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Solicitação - Grupo Herculano</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatório de Turno - Processo</title>
+    <link rel="stylesheet" href="styles-completo.css" />
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #3b82f6;
-            --success: #059669;
-            --success-light: #d1fae5;
-            --error: #dc2626;
-            --error-light: #fee2e2;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --border-focus: #93c5fd;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #f1f3f4;
+        color: #202124;
+        line-height: 1.6;
+      }
 
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(5, 150, 105, 0.08) 0%, transparent 50%);
-        }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.12),
+          0 1px 2px rgba(0, 0, 0, 0.24);
+        overflow: hidden;
+      }
 
+      .form-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 24px 24px 16px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-header h1 {
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 8px;
+      }
+
+      .required-indicator {
+        font-size: 14px;
+        color: #d93025;
+        margin-top: 16px;
+      }
+
+      form {
+        padding: 24px;
+      }
+
+      .form-page {
+        display: none;
+      }
+
+      .form-page.active {
+        display: block;
+      }
+
+      .section-title {
+        background: linear-gradient(to right, #f093fb 0%, #f5576c 100%);
+        padding: 12px 16px;
+        margin: -24px -24px 24px -24px;
+        font-size: 16px;
+        font-weight: 500;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-group {
+        margin-bottom: 32px;
+      }
+
+      label {
+        display: block;
+        font-size: 16px;
+        color: #202124;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .required {
+        color: #d93025;
+        margin-left: 4px;
+      }
+
+      .field-description {
+        font-size: 14px;
+        color: #5f6368;
+        margin-top: 4px;
+        margin-bottom: 12px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      textarea {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1px solid #dadce0;
+        border-radius: 4px;
+        font-size: 16px;
+        font-family: inherit;
+        transition: all 0.2s;
+        background-color: #fafafa;
+      }
+
+      input[type="text"]:focus,
+      input[type="date"]:focus,
+      input[type="number"]:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        border-width: 2px;
+        background-color: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+        line-height: 1.5;
+      }
+
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 12px 16px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        background-color: #fafafa;
+        border: 2px solid transparent;
+      }
+
+      .radio-option:hover {
+        background-color: #e8eaf6;
+        border-color: #667eea;
+        transform: translateX(4px);
+      }
+
+      .radio-option input[type="radio"]:checked + span {
+        font-weight: 500;
+        color: #667eea;
+      }
+
+      .radio-option input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        cursor: pointer;
+        accent-color: #667eea;
+      }
+
+      .radio-option span {
+        flex: 1;
+        font-size: 14px;
+      }
+
+      .other-input {
+        margin-left: 8px;
+        padding: 8px 12px;
+        border: 0;
+        border-bottom: 1px solid #dadce0;
+        font-size: 14px;
+        flex: 1;
+        transition: border-color 0.2s;
+      }
+
+      .other-input:focus {
+        outline: none;
+        border-bottom-color: #673ab7;
+        border-bottom-width: 2px;
+      }
+
+      /* Matrix Grid Styles */
+      .matrix-note {
+        font-size: 13px;
+        color: #5f6368;
+        margin-bottom: 16px;
+        font-style: italic;
+      }
+
+      .matrix-grid {
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+      }
+
+      .matrix-header {
+        display: grid;
+        grid-template-columns: 120px repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0;
+        background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+        border-bottom: 2px solid #764ba2;
+        font-weight: 500;
+        font-size: 13px;
+        color: white;
+      }
+
+      .matrix-header > div {
+        padding: 12px 8px;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .matrix-header > div:first-child {
+        text-align: left;
+        padding-left: 16px;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .matrix-header > div:last-child {
+        border-right: none;
+      }
+
+      .matrix-row {
+        display: grid;
+        grid-template-columns: 120px repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0;
+        border-bottom: 1px solid #e8eaed;
+      }
+
+      .matrix-row:last-child {
+        border-bottom: none;
+      }
+
+      .matrix-row:hover {
+        background: linear-gradient(
+          to right,
+          rgba(102, 126, 234, 0.05),
+          rgba(240, 147, 251, 0.05)
+        );
+        transform: scale(1.01);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .matrix-label {
+        padding: 12px 16px;
+        font-weight: 500;
+        background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%);
+        border-right: 1px solid #e8eaed;
+        display: flex;
+        align-items: center;
+        color: #667eea;
+      }
+
+      .matrix-row > div:not(.matrix-label) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 8px;
+        border-right: 1px solid #e8eaed;
+      }
+
+      .matrix-row > div:last-child {
+        border-right: none;
+      }
+
+      .matrix-row input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #673ab7;
+      }
+
+      .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #e8eaed;
+      }
+
+      button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-back {
+        background-color: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .btn-back:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-next,
+      .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        margin-left: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-next:hover,
+      .btn-submit:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #6a3f8d 100%);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .btn-submit:hover {
+        background: linear-gradient(135deg, #e082ea 0%, #e4465b 100%);
+        box-shadow: 0 4px 12px rgba(240, 147, 251, 0.4);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
         .container {
-            width: 100%;
-            max-width: 560px;
+          margin: 0;
+          border-radius: 0;
         }
 
-        .card {
-            background: var(--card);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
+        form {
+          padding: 16px;
         }
 
-        .card-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
+        .section-title {
+          margin: -16px -16px 16px -16px;
         }
 
-        .card-header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .matrix-header,
+        .matrix-row {
+          grid-template-columns: 100px repeat(auto-fit, minmax(80px, 1fr));
+          font-size: 12px;
         }
 
-        .card-header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .matrix-header > div,
+        .matrix-row > div {
+          padding: 8px 4px;
         }
 
-        .card-body {
-            padding: 2rem;
+        .form-navigation {
+          flex-direction: column;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .form-group label .required {
-            color: var(--error);
-            margin-left: 2px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            font-family: inherit;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: var(--card);
-            color: var(--text);
-            transition: all 0.2s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .form-control::placeholder {
-            color: var(--text-muted);
-        }
-
-        select.form-control {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.25rem;
-            padding-right: 2.5rem;
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Radio Buttons Custom */
-        .radio-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .radio-option {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .radio-option input {
-            display: none;
-        }
-
-        .radio-option label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.875rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        .radio-option label:hover {
-            border-color: var(--primary-light);
-            background: rgba(37, 99, 235, 0.05);
-        }
-
-        .radio-option input:checked + label {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
-        }
-
-        /* Campo Condicional */
-        .conditional-field {
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-
-        .conditional-field.show {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Botão Submit */
+        .btn-next,
         .btn-submit {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: inherit;
-            color: white;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+          margin-left: 0;
         }
+      }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-        }
+      /* Error states */
+      input:invalid:not(:placeholder-shown) {
+        border-color: #d93025;
+      }
 
-        .btn-submit:active {
-            transform: translateY(0);
-        }
+      .error-message {
+        color: #d93025;
+        font-size: 12px;
+        margin-top: 4px;
+        display: none;
+      }
 
-        .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-submit .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-
-        .btn-submit.loading .spinner {
-            display: block;
-        }
-
-        .btn-submit.loading .btn-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Mensagens de Status */
-        .alert {
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            display: none;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
-        .alert.show {
-            display: flex;
-        }
-
-        .alert-success {
-            background: var(--success-light);
-            color: var(--success);
-        }
-
-        .alert-error {
-            background: var(--error-light);
-            color: var(--error);
-        }
-
-        .alert-icon {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-        }
-
-        .alert-content {
-            flex: 1;
-        }
-
-        .alert-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .alert-message {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* Footer */
-        .card-footer {
-            padding: 1rem 2rem;
-            background: var(--bg);
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Responsivo */
-        @media (max-width: 480px) {
-            body {
-                padding: 1rem;
-            }
-
-            .card-header {
-                padding: 1.5rem;
-            }
-
-            .card-body {
-                padding: 1.5rem;
-            }
-
-            .radio-option {
-                min-width: 100%;
-            }
-        }
+      input:invalid:not(:placeholder-shown) + .error-message {
+        display: block;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h1>📋 Formulário de Solicitação</h1>
-                <p>Preencha os campos abaixo para enviar sua solicitação</p>
+      <div class="form-header">
+        <h1>Relatório de Turno - Processo</h1>
+        <p class="required-indicator">* Indica uma pergunta obrigatória</p>
+      </div>
+
+      <form id="relatorioForm">
+        <!-- Página 1: Informações Básicas -->
+        <div class="form-page active" id="page1">
+          <div class="form-group">
+            <label for="data">Data <span class="required">*</span></label>
+            <input type="date" id="data" name="data" required />
+          </div>
+
+          <div class="form-group">
+            <label>Turno <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="turno" value="07x19" required />
+                <span>07x19</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="turno" value="19x07" />
+                <span>19x07</span>
+              </label>
             </div>
+          </div>
 
-            <div class="card-body">
-                <!-- Alertas -->
-                <div id="alertSuccess" class="alert alert-success">
-                    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <div class="alert-content">
-                        <div class="alert-title">Sucesso!</div>
-                        <div class="alert-message">Sua solicitação foi enviada com sucesso.</div>
-                    </div>
-                </div>
-
-                <div id="alertError" class="alert alert-error">
-                    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <div class="alert-content">
-                        <div class="alert-title">Erro!</div>
-                        <div class="alert-message" id="errorMessage">Não foi possível enviar a solicitação.</div>
-                    </div>
-                </div>
-
-                <!-- Formulário -->
-                <form id="solicitacaoForm">
-                    <div class="form-group">
-                        <label for="nome">Nome Completo <span class="required">*</span></label>
-                        <input type="text" id="nome" class="form-control" placeholder="Digite seu nome completo" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E-mail <span class="required">*</span></label>
-                        <input type="email" id="email" class="form-control" placeholder="seu.email@empresa.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="setor">Setor <span class="required">*</span></label>
-                        <select id="setor" class="form-control" required>
-                            <option value="">Selecione o setor</option>
-                            <option value="TI">TI</option>
-                            <option value="RH">RH</option>
-                            <option value="Financeiro">Financeiro</option>
-                            <option value="Operação">Operação</option>
-                            <option value="Laboratório">Laboratório</option>
-                            <option value="Manutenção">Manutenção</option>
-                            <option value="Administrativo">Administrativo</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tipoSolicitacao">Tipo de Solicitação <span class="required">*</span></label>
-                        <select id="tipoSolicitacao" class="form-control" required>
-                            <option value="">Selecione o tipo</option>
-                            <option value="Acesso a Sistema">Acesso a Sistema</option>
-                            <option value="Equipamento">Equipamento</option>
-                            <option value="Suporte Técnico">Suporte Técnico</option>
-                            <option value="Manutenção">Manutenção</option>
-                            <option value="Outros">Outros</option>
-                        </select>
-                    </div>
-
-                    <!-- Campo Radio com Condicional -->
-                    <div class="form-group">
-                        <label>Necessita Justificativa? <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="justificativaNao" name="necessitaJustificativa" value="Não" checked>
-                                <label for="justificativaNao">Não</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="justificativaSim" name="necessitaJustificativa" value="Sim">
-                                <label for="justificativaSim">Sim</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campo Condicional - Justificativa -->
-                    <div id="campoJustificativa" class="conditional-field">
-                        <div class="form-group">
-                            <label for="justificativa">Motivo / Justificativa <span class="required">*</span></label>
-                            <textarea id="justificativa" class="form-control" placeholder="Descreva detalhadamente o motivo da sua solicitação..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Nível de Urgência <span class="required">*</span></label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                    <input type="radio" id="urgenciaBaixa" name="urgencia" value="Baixa" checked>
-                                    <label for="urgenciaBaixa">🟢 Baixa</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="urgenciaMedia" name="urgencia" value="Média">
-                                    <label for="urgenciaMedia">🟡 Média</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="urgenciaAlta" name="urgencia" value="Alta">
-                                    <label for="urgenciaAlta">🟠 Alta</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="urgenciaCritica" name="urgencia" value="Crítica">
-                                    <label for="urgenciaCritica">🔴 Crítica</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campo Radio com Outro Condicional -->
-                    <div class="form-group">
-                        <label>Precisa de acompanhamento? <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="acompanhamentoNao" name="acompanhamento" value="Não" checked>
-                                <label for="acompanhamentoNao">Não</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="acompanhamentoSim" name="acompanhamento" value="Sim">
-                                <label for="acompanhamentoSim">Sim</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campo Condicional - Acompanhamento -->
-                    <div id="campoAcompanhamento" class="conditional-field">
-                        <div class="form-group">
-                            <label for="telefone">Telefone para Contato <span class="required">*</span></label>
-                            <input type="tel" id="telefone" class="form-control" placeholder="(31) 99999-9999">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="melhorHorario">Melhor Horário para Contato</label>
-                            <select id="melhorHorario" class="form-control">
-                                <option value="">Selecione</option>
-                                <option value="Manhã (8h-12h)">Manhã (8h-12h)</option>
-                                <option value="Tarde (13h-17h)">Tarde (13h-17h)</option>
-                                <option value="Qualquer horário">Qualquer horário</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="observacoes">Observações Adicionais</label>
-                        <textarea id="observacoes" class="form-control" placeholder="Informações adicionais (opcional)..." rows="3"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-submit" id="btnSubmit">
-                        <span class="spinner"></span>
-                        <span class="btn-text">Enviar Solicitação</span>
-                    </button>
-                </form>
+          <div class="form-group">
+            <label>Equipe <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="equipe" value="A" required />
+                <span>A</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="equipe" value="B" />
+                <span>B</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="equipe" value="C" />
+                <span>C</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="equipe" value="D" />
+                <span>D</span>
+              </label>
             </div>
+          </div>
 
-            <div class="card-footer">
-                Grupo Herculano - Sistema de Solicitações TI
+          <div class="form-group">
+            <label>Técnico de Processo <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="tecnico"
+                  value="Ernane Silva"
+                  required
+                />
+                <span>Ernane Silva</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="tecnico" value="Hiago Coelho" />
+                <span>Hiago Coelho</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="tecnico" value="Oscar Gomes" />
+                <span>Oscar Gomes</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="tecnico" value="Vinícius Clemente" />
+                <span>Vinícius Clemente</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="tecnico" value="Wanderson Silva" />
+                <span>Wanderson Silva</span>
+              </label>
             </div>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
         </div>
+
+        <!-- Página 2: Britagem e Peneiramento -->
+        <div class="form-page" id="page2">
+          <h2 class="section-title">Britagem e Peneiramento</h2>
+
+          <div class="form-group">
+            <label for="alimentacao_blending"
+              >Britagem Primária <span class="required">*</span></label
+            >
+            <p class="field-description">Alimentação (Blending):</p>
+            <input
+              type="text"
+              id="alimentacao_blending"
+              name="alimentacao_blending"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bt301"
+              >BT-301 (APF): <span class="required">*</span></label
+            >
+            <input type="text" id="bt301" name="bt301" required />
+          </div>
+
+          <div class="form-group">
+            <label
+              >Linha 01 (Britagem e Classificação)
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="linha01" value="Operando" required />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha01" value="Disponível" />
+                <span>Disponível</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha01" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Linha 1 - Alimentação (Blending)</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha1_alimentacao"
+                  value="Pilha Britagem Primária"
+                />
+                <span>Pilha Britagem Primária</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha1_alimentacao"
+                  value="ROM Rico"
+                />
+                <span>ROM Rico</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha1_alimentacao"
+                  value="Reprocessamento"
+                />
+                <span>Reprocessamento</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha1_alimentacao" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bt101">BT-101 (APF)</label>
+            <input type="text" id="bt101" name="bt101" />
+          </div>
+
+          <div class="form-group">
+            <label for="bt102">BT-102 (APF)</label>
+            <input type="text" id="bt102" name="bt102" />
+          </div>
+
+          <div class="form-group">
+            <label
+              >Linha 2 (Britagem e Classificação)
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="linha02" value="Operando" required />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha02" value="Disponível" />
+                <span>Disponível</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha02" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Linha 02 - Alimentação (Blending)
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha02_alimentacao"
+                  value="Pilha 301"
+                  required
+                />
+                <span>Pilha 301</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha02_alimentacao"
+                  value="Pilha 302"
+                />
+                <span>Pilha 302</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="linha02_alimentacao"
+                  value="Pilha 303"
+                />
+                <span>Pilha 303</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="linha02_alimentacao" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bt201">BT-201 (APF)</label>
+            <input type="text" id="bt201" name="bt201" />
+          </div>
+
+          <div class="form-group">
+            <label>Britagem Terciária <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="britagem_terciaria"
+                  value="Operando"
+                  required
+                />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="britagem_terciaria" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bt104_107">BT's 104 e 107 (APF)</label>
+            <input type="text" id="bt104_107" name="bt104_107" />
+          </div>
+
+          <div class="form-group">
+            <label>Britagem Quaternária <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="britagem_quaternaria"
+                  value="Operando"
+                  required
+                />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="britagem_quaternaria" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 3: WDRE -->
+        <div class="form-page" id="page3">
+          <h2 class="section-title">WDRE</h2>
+
+          <div class="form-group">
+            <label for="densidade_alimentacao"
+              >Densidade Alimentação (g/cm3):
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_alimentacao"
+              name="densidade_alimentacao"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="num_rm"
+              >N° RM em operação <span class="required">*</span></label
+            >
+            <input type="text" id="num_rm" name="num_rm" required />
+          </div>
+
+          <div class="form-group">
+            <label for="taxa_alimentacao"
+              >Taxa de alimentação por RM:
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="taxa_alimentacao"
+              name="taxa_alimentacao"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Ciclonagem WDRE <span class="required">*</span></label>
+            <p class="field-description">N° de Ciclones em operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="ciclones_wdre" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_wdre" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_wdre" value="3" />
+                <span>3</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_wdre" value="4" />
+                <span>4</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pressao_trabalho_wdre"
+              >Pressão de trabalho (kgf/cm2)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="pressao_trabalho_wdre"
+              name="pressao_trabalho_wdre"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_alim_ciclonagem"
+              >Densidade Alimentação da Ciclonagem (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_alim_ciclonagem"
+              name="densidade_alim_ciclonagem"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_overflow"
+              >Densidade Overflow (g/cm3) <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_overflow"
+              name="densidade_overflow"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_underflow"
+              >Densidade Underflow (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_underflow"
+              name="densidade_underflow"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label
+              >Fluxo do Overflow, direcionado para onde?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="fluxo_overflow"
+                  value="CX-101"
+                  required
+                />
+                <span>CX-101</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="fluxo_overflow" value="CX-102" />
+                <span>CX-102</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="fluxo_overflow" value="CX-103" />
+                <span>CX-103</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="fluxo_overflow" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>PD's em operação <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="pds_operacao"
+                  value="PD-12"
+                  required
+                />
+                <span>PD-12</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_operacao" value="PD-13" />
+                <span>PD-13</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_operacao" value="PD-12 + PD-13" />
+                <span>PD-12 + PD-13</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Amostrador TC-26 <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="amostrador_tc26"
+                  value="Operando"
+                  required
+                />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="amostrador_tc26" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 4: Espirais -->
+        <div class="form-page" id="page4">
+          <h2 class="section-title">Espirais</h2>
+
+          <div class="form-group">
+            <label>Ciclonagem Primária <span class="required">*</span></label>
+            <p class="field-description">N° de Ciclones em operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="ciclones_primaria"
+                  value="1"
+                  required
+                />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_primaria" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_primaria" value="3" />
+                <span>3</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_primaria" value="4" />
+                <span>4</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_primaria" value="5" />
+                <span>5</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_primaria" value="6" />
+                <span>6</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pressao_trabalho_espirais"
+              >Pressão de trabalho (kgf/cm2)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="pressao_trabalho_espirais"
+              name="pressao_trabalho_espirais"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_alim_espirais"
+              >Densidade da Alimentação (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_alim_espirais"
+              name="densidade_alim_espirais"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_overflow_espirais"
+              >Densidade do Overflow (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_overflow_espirais"
+              name="densidade_overflow_espirais"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_underflow_espirais"
+              >Densidade do Underflow (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_underflow_espirais"
+              name="densidade_underflow_espirais"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Espirais - Rougher <span class="required">*</span></label>
+            <p class="field-description">N° de Bancos em operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="bancos_rougher" value="6" required />
+                <span>6</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="bancos_rougher" value="7" />
+                <span>7</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="bancos_rougher" value="8" />
+                <span>8</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="bancos_rougher" value="9" />
+                <span>9</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="bancos_rougher" value="10" />
+                <span>10</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pistas_rougher"
+              >N° de Pistas em operação <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="pistas_rougher"
+              name="pistas_rougher"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ton_pista_rougher"
+              >Ton/pista <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="ton_pista_rougher"
+              name="ton_pista_rougher"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="pistas_cleaner"
+              >Espirais - Cleaner <span class="required">*</span></label
+            >
+            <p class="field-description">N° de Pistas em operação</p>
+            <input
+              type="text"
+              id="pistas_cleaner"
+              name="pistas_cleaner"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ton_pista_cleaner"
+              >Ton/pista <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="ton_pista_cleaner"
+              name="ton_pista_cleaner"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label
+              >N° Ciclones em operação (BP-07)
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="ciclones_bp07" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_bp07" value="2" />
+                <span>2</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pressao_bp07"
+              >Pressão de trabalho (HC BP-07)
+              <span class="required">*</span></label
+            >
+            <input type="text" id="pressao_bp07" name="pressao_bp07" required />
+          </div>
+
+          <div class="form-group">
+            <label
+              >PD's em Operação (Concentrado)
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="pds_concentrado"
+                  value="PD-05"
+                  required
+                />
+                <span>PD-05</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_concentrado" value="PD-06" />
+                <span>PD-06</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="pds_concentrado"
+                  value="PD-05 + PD-06"
+                />
+                <span>PD-05 + PD-06</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Fluxo Under PD-06 <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="fluxo_pd06" value="CX-07" required />
+                <span>CX-07</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="fluxo_pd06" value="CX-11" />
+                <span>CX-11</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >PD's em operação (Rejeito) <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="pds_rejeito" value="PD-06" required />
+                <span>PD-06</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_rejeito" value="PD-07" />
+                <span>PD-07</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_rejeito" value="PD-10" />
+                <span>PD-10</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_rejeito" value="PD-07 + PD-10" />
+                <span>PD-07 + PD-10</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="pds_rejeito" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Amostrador TC-14 <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="amostrador_tc14"
+                  value="Operando"
+                  required
+                />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="amostrador_tc14"
+                  value="Indisponível"
+                />
+                <span>Indisponível</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 5: WHC -->
+        <div class="form-page" id="page5">
+          <h2 class="section-title">WHC</h2>
+
+          <div class="form-group">
+            <label>WHC <span class="required">*</span></label>
+            <p class="field-description">Rota em Operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="whc_rota"
+                  value="Rota 1 (antiga)"
+                  required
+                />
+                <span>Rota 1 (antiga)</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="whc_rota" value="Rota 2 (nova)" />
+                <span>Rota 2 (nova)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>WHC - Campo Magnético <span class="required">*</span></label>
+            <p class="matrix-note">
+              Selecione uma opção para cada equipamento:
+            </p>
+            <div class="matrix-grid">
+              <div class="matrix-header">
+                <div></div>
+                <div>Alto (18000 a 10000 Gauss)</div>
+                <div>Médio (10000 a 8000 Gauss)</div>
+                <div>Baixo (&lt;8000 Gauss)</div>
+                <div>Disponível (Stand-by)</div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-01</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc01"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc01" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc01" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc01" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-02</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc02"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc02" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc02" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc02" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-08</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc08"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc08" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc08" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc08" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-10</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc10"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc10" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc10" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc10" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-11</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc11"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc11" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc11" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc11" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-03</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc03"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc03" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc03" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc03" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-04</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc04"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc04" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc04" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc04" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-05</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc05"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc05" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc05" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc05" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-06</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc06"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc06" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc06" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc06" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-07</div>
+                <div>
+                  <input
+                    type="radio"
+                    name="campo_whc07"
+                    value="Alto"
+                    required
+                  />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc07" value="Médio" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc07" value="Baixo" />
+                </div>
+                <div>
+                  <input type="radio" name="campo_whc07" value="Disponível" />
+                </div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">GHX</div>
+                <div>
+                  <input type="radio" name="campo_ghx" value="Alto" required />
+                </div>
+                <div><input type="radio" name="campo_ghx" value="Médio" /></div>
+                <div><input type="radio" name="campo_ghx" value="Baixo" /></div>
+                <div>
+                  <input type="radio" name="campo_ghx" value="Disponível" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >WHC - Água de Lavagem (Médio)
+              <span class="required">*</span></label
+            >
+            <p class="matrix-note">
+              Selecione uma opção para cada equipamento:
+            </p>
+            <div class="matrix-grid">
+              <div class="matrix-header">
+                <div></div>
+                <div>4 kgf</div>
+                <div>3 kgf</div>
+                <div>2 kgf</div>
+                <div>1 kgf</div>
+                <div>0 kgf</div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-01</div>
+                <div>
+                  <input type="radio" name="agua_whc01" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc01" value="3" /></div>
+                <div><input type="radio" name="agua_whc01" value="2" /></div>
+                <div><input type="radio" name="agua_whc01" value="1" /></div>
+                <div><input type="radio" name="agua_whc01" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-02</div>
+                <div>
+                  <input type="radio" name="agua_whc02" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc02" value="3" /></div>
+                <div><input type="radio" name="agua_whc02" value="2" /></div>
+                <div><input type="radio" name="agua_whc02" value="1" /></div>
+                <div><input type="radio" name="agua_whc02" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-08</div>
+                <div>
+                  <input type="radio" name="agua_whc08" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc08" value="3" /></div>
+                <div><input type="radio" name="agua_whc08" value="2" /></div>
+                <div><input type="radio" name="agua_whc08" value="1" /></div>
+                <div><input type="radio" name="agua_whc08" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-10</div>
+                <div>
+                  <input type="radio" name="agua_whc10" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc10" value="3" /></div>
+                <div><input type="radio" name="agua_whc10" value="2" /></div>
+                <div><input type="radio" name="agua_whc10" value="1" /></div>
+                <div><input type="radio" name="agua_whc10" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-11</div>
+                <div>
+                  <input type="radio" name="agua_whc11" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc11" value="3" /></div>
+                <div><input type="radio" name="agua_whc11" value="2" /></div>
+                <div><input type="radio" name="agua_whc11" value="1" /></div>
+                <div><input type="radio" name="agua_whc11" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-03</div>
+                <div>
+                  <input type="radio" name="agua_whc03" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc03" value="3" /></div>
+                <div><input type="radio" name="agua_whc03" value="2" /></div>
+                <div><input type="radio" name="agua_whc03" value="1" /></div>
+                <div><input type="radio" name="agua_whc03" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-04</div>
+                <div>
+                  <input type="radio" name="agua_whc04" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc04" value="3" /></div>
+                <div><input type="radio" name="agua_whc04" value="2" /></div>
+                <div><input type="radio" name="agua_whc04" value="1" /></div>
+                <div><input type="radio" name="agua_whc04" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-05</div>
+                <div>
+                  <input type="radio" name="agua_whc05" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc05" value="3" /></div>
+                <div><input type="radio" name="agua_whc05" value="2" /></div>
+                <div><input type="radio" name="agua_whc05" value="1" /></div>
+                <div><input type="radio" name="agua_whc05" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-06</div>
+                <div>
+                  <input type="radio" name="agua_whc06" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc06" value="3" /></div>
+                <div><input type="radio" name="agua_whc06" value="2" /></div>
+                <div><input type="radio" name="agua_whc06" value="1" /></div>
+                <div><input type="radio" name="agua_whc06" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">WHC-07</div>
+                <div>
+                  <input type="radio" name="agua_whc07" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_whc07" value="3" /></div>
+                <div><input type="radio" name="agua_whc07" value="2" /></div>
+                <div><input type="radio" name="agua_whc07" value="1" /></div>
+                <div><input type="radio" name="agua_whc07" value="0" /></div>
+              </div>
+
+              <div class="matrix-row">
+                <div class="matrix-label">GHX</div>
+                <div>
+                  <input type="radio" name="agua_ghx" value="4" required />
+                </div>
+                <div><input type="radio" name="agua_ghx" value="3" /></div>
+                <div><input type="radio" name="agua_ghx" value="2" /></div>
+                <div><input type="radio" name="agua_ghx" value="1" /></div>
+                <div><input type="radio" name="agua_ghx" value="0" /></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Teste da Peneirinha <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="teste_peneirinha"
+                  value="Realizado - Sem Contaminação"
+                  required
+                />
+                <span>Realizado - Sem Contaminação</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="teste_peneirinha"
+                  value="Realizado - Identificado contaminação"
+                />
+                <span>Realizado - Identificado contaminação</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="teste_peneirinha" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_whc_rougher"
+              >Densidade Alimentação WHC-Rougher (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_whc_rougher"
+              name="densidade_whc_rougher"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_whc_scavenger"
+              >Densidade Alimentação WHC-Scavenger (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_whc_scavenger"
+              name="densidade_whc_scavenger"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_whc_cleaner"
+              >Densidade Alimentação WHC-Cleaner (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_whc_cleaner"
+              name="densidade_whc_cleaner"
+              required
+            />
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 6: Ciclonagem / Espessamento / Floculante -->
+        <div class="form-page" id="page6">
+          <h2 class="section-title">Ciclonagem / Espessamento / Floculante</h2>
+
+          <div class="form-group">
+            <label
+              >Ciclonagem de Rejeitos <span class="required">*</span></label
+            >
+            <p class="field-description">N° de Ciclones em Operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="ciclones_rejeitos"
+                  value="1"
+                  required
+                />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="3" />
+                <span>3</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="4" />
+                <span>4</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="5" />
+                <span>5</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="6" />
+                <span>6</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="7" />
+                <span>7</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ciclones_rejeitos" value="8" />
+                <span>8</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pressao_ciclonagem"
+              >Pressão de trabalho (kgf/cm2)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="pressao_ciclonagem"
+              name="pressao_ciclonagem"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_alimentação"
+              >Densidade de Alimentação (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_alimentação"
+              name="densidade_alimentação"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_underflow"
+              >Densidade de Underflow (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_underflow"
+              name="densidade_underflow"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_overflow"
+              >Densidade de Overflow (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_overflow"
+              name="densidade_overflow"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Espessamento <span class="required">*</span></label>
+            <p class="field-description">Floculante Utilizado</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="floculante_utilizado"
+                  value="SNF AN 840 XV"
+                  required
+                />
+                <span>SNF AN 840 XV</span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="floculante_utilizado"
+                  value="Solenis Zalta 1630 DK"
+                />
+                <span>Solenis Zalta 1630 DK</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="floculante_utilizado" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dosagem_rejeito"
+              >Dosagem de Floculante (g/t)
+              <span class="required">*</span></label
+            >
+            <p class="field-description">ES-01 (Rejeito)</p>
+            <input
+              type="text"
+              id="dosagem_rejeito"
+              name="dosagem_rejeito"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dosagem_concentrado">Dosagem de Floculante (g/t)</label>
+            <p class="field-description">ES-02 (Concentrado)</p>
+            <input
+              type="text"
+              id="dosagem_concentrado"
+              name="dosagem_concentrado"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dosagem_medio"
+              >Dosagem de Floculante (g/t)
+              <span class="required">*</span></label
+            >
+            <p class="field-description">ES-03 (Médio)</p>
+            <input
+              type="text"
+              id="dosagem_medio"
+              name="dosagem_medio"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dosagem_novo"
+              >Dosagem de Floculante (g/t)
+              <span class="required">*</span></label
+            >
+            <p class="field-description">ES-04 (Novo)</p>
+            <input type="text" id="dosagem_novo" name="dosagem_novo" required />
+          </div>
+
+          <div class="form-group">
+            <label
+              >Turbidez durante o turno? Se sim, marque outro e relate qual(is).
+              <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="turbidez" value="Não" required />
+                <span>Não</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="turbidez" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 7: Filtragem -->
+        <div class="form-page" id="page7">
+          <h2 class="section-title">Filtragem</h2>
+
+          <div class="form-group">
+            <label>Rejeito Cerâmica <span class="required">*</span></label>
+            <p class="field-description">N° de Filtros em operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="filtros_ceramica"
+                  value="1"
+                  required
+                />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_ceramica" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_ceramica" value="3" />
+                <span>3</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_ceramica" value="4" />
+                <span>4</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_ceramica" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Filtro Disco (Brasfelt) <span class="required">*</span></label
+            >
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="filtro_disco" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtro_disco" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtro_disco" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_rejeito"
+              >Densidade Alimentação Rejeito (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_rejeito"
+              name="densidade_rejeito"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Filtragem Concentrado <span class="required">*</span></label>
+            <p class="field-description">N° de Filtros em Operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="filtros_concentrado"
+                  value="1"
+                  required
+                />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_concentrado" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_concentrado" value="3" />
+                <span>3</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_concentrado" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_filtragem_concentrado"
+              >Densidade Alimentação Filtragem Concentrado (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_filtragem_concentrado"
+              name="densidade_filtragem_concentrado"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Amostrador TC-20 <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="amostrador_tc20"
+                  value="Operando"
+                  required
+                />
+                <span>Operando</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="amostrador_tc20" value="Outro" />
+                <span>Outro:</span>
+                <input type="text" class="other-input" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Filtragem Prensa <span class="required">*</span></label>
+            <p class="field-description">N° de Filtros em operação</p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="filtros_prensa" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_prensa" value="2" />
+                <span>2</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="filtros_prensa" value="3" />
+                <span>3</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="densidade_filtro_prensa"
+              >Densidade Alimentação Filtro Prensa (g/cm3)
+              <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="densidade_filtro_prensa"
+              name="densidade_filtro_prensa"
+              required
+            />
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="button" class="btn-next" onclick="nextPage()">
+              Avançar
+            </button>
+          </div>
+        </div>
+
+        <!-- Página 8: Ocorrências -->
+        <div class="form-page" id="page8">
+          <h2 class="section-title">Ocorrências</h2>
+
+          <div class="form-group">
+            <label for="ocorrencias"
+              >Relate as principais ocorrências e dificuldades do turno.</label
+            >
+            <textarea
+              id="ocorrencias"
+              name="ocorrencias"
+              rows="10"
+              placeholder="Descreva aqui as ocorrências, dificuldades, paradas de equipamento, manutenções realizadas, problemas operacionais, etc."
+            ></textarea>
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="btn-back" onclick="prevPage()">
+              Voltar
+            </button>
+            <button type="submit" class="btn-submit">Enviar</button>
+          </div>
+        </div>
+      </form>
     </div>
 
+    <script src="script-completo.js"></script>
     <script>
-        // ========================================
-        // CONFIGURAÇÃO - URL DO WEBHOOK N8N
-        // ========================================
-        const WEBHOOK_URL = 'https://addamn8ndev.dpdns.org/webhook/formulario-solicitacao';
+      // Estado atual do formulário
+      let currentPage = 1;
+      const totalPages = 8;
 
-        // ========================================
-        // CAMPOS CONDICIONAIS
-        // ========================================
+      // Inicializar formulário
+      document.addEventListener("DOMContentLoaded", function () {
+        // Setar data atual
+        const dataInput = document.getElementById("data");
+        if (dataInput) {
+          const hoje = new Date().toISOString().split("T")[0];
+          dataInput.value = hoje;
+        }
 
-        // Justificativa
-        const radioJustificativa = document.querySelectorAll('input[name="necessitaJustificativa"]');
-        const campoJustificativa = document.getElementById('campoJustificativa');
-        const inputJustificativa = document.getElementById('justificativa');
+        // Configurar campos "Outro"
+        setupOtherFields();
 
-        radioJustificativa.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'Sim') {
-                    campoJustificativa.classList.add('show');
-                    inputJustificativa.setAttribute('required', 'required');
-                } else {
-                    campoJustificativa.classList.remove('show');
-                    inputJustificativa.removeAttribute('required');
-                    inputJustificativa.value = '';
-                }
+        // Mostrar primeira página
+        showPage(1);
+      });
+
+      // Mostrar página específica
+      function showPage(pageNumber) {
+        // Esconder todas as páginas
+        document.querySelectorAll(".form-page").forEach((page) => {
+          page.classList.remove("active");
+        });
+
+        // Mostrar página atual
+        const page = document.getElementById(`page${pageNumber}`);
+        if (page) {
+          page.classList.add("active");
+          currentPage = pageNumber;
+
+          // Scroll para o topo
+          window.scrollTo(0, 0);
+        }
+      }
+
+      // Avançar para próxima página
+      function nextPage() {
+        const currentPageElement = document.getElementById(
+          `page${currentPage}`,
+        );
+
+        // Validar campos obrigatórios da página atual
+        if (!validateCurrentPage(currentPageElement)) {
+          alert(
+            "Por favor, preencha todos os campos obrigatórios antes de avançar.",
+          );
+          return;
+        }
+
+        if (currentPage < totalPages) {
+          showPage(currentPage + 1);
+        }
+      }
+
+      // Voltar para página anterior
+      function prevPage() {
+        if (currentPage > 1) {
+          showPage(currentPage - 1);
+        }
+      }
+
+      // Validar página atual
+      function validateCurrentPage(pageElement) {
+        // Validar campos de texto obrigatórios
+        const requiredTextInputs = pageElement.querySelectorAll(
+          'input[required][type="text"], input[required][type="date"], input[required][type="number"]',
+        );
+        for (let input of requiredTextInputs) {
+          if (!input.value.trim()) {
+            input.focus();
+            return false;
+          }
+        }
+
+        // Validar radio buttons obrigatórios
+        const requiredRadioGroups = new Set();
+        pageElement
+          .querySelectorAll('input[required][type="radio"]')
+          .forEach((radio) => {
+            requiredRadioGroups.add(radio.name);
+          });
+
+        for (let groupName of requiredRadioGroups) {
+          const checked = pageElement.querySelector(
+            `input[name="${groupName}"]:checked`,
+          );
+          if (!checked) {
+            // Focar no primeiro radio do grupo
+            const firstRadio = pageElement.querySelector(
+              `input[name="${groupName}"]`,
+            );
+            if (firstRadio) {
+              firstRadio.focus();
+            }
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      // Configurar campos "Outro"
+      function setupOtherFields() {
+        document.querySelectorAll(".radio-option").forEach((option) => {
+          const radioInput = option.querySelector('input[type="radio"]');
+          const otherInput = option.querySelector(".other-input");
+
+          if (radioInput && otherInput) {
+            // Habilitar/desabilitar campo de texto conforme seleção
+            radioInput.addEventListener("change", function () {
+              if (this.checked) {
+                otherInput.disabled = false;
+                otherInput.focus();
+              }
             });
-        });
 
-        // Acompanhamento
-        const radioAcompanhamento = document.querySelectorAll('input[name="acompanhamento"]');
-        const campoAcompanhamento = document.getElementById('campoAcompanhamento');
-        const inputTelefone = document.getElementById('telefone');
-
-        radioAcompanhamento.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'Sim') {
-                    campoAcompanhamento.classList.add('show');
-                    inputTelefone.setAttribute('required', 'required');
-                } else {
-                    campoAcompanhamento.classList.remove('show');
-                    inputTelefone.removeAttribute('required');
-                    inputTelefone.value = '';
-                    document.getElementById('melhorHorario').value = '';
-                }
+            // Marcar radio quando digitar no campo de texto
+            otherInput.addEventListener("focus", function () {
+              radioInput.checked = true;
             });
+
+            // Desabilitar outros campos "Outro" do mesmo grupo
+            radioInput.addEventListener("change", function () {
+              if (this.checked) {
+                // Desabilitar outros campos "Outro" do mesmo grupo
+                const groupName = this.name;
+                document
+                  .querySelectorAll(`input[name="${groupName}"]`)
+                  .forEach((radio) => {
+                    const parentOption = radio.closest(".radio-option");
+                    const otherField =
+                      parentOption?.querySelector(".other-input");
+                    if (otherField && radio !== radioInput) {
+                      otherField.disabled = true;
+                      otherField.value = "";
+                    }
+                  });
+              }
+            });
+          }
+        });
+      }
+
+      // Submeter formulário
+      document
+        .getElementById("relatorioForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Validar última página
+          const lastPage = document.getElementById(`page${totalPages}`);
+          if (!validateCurrentPage(lastPage)) {
+            alert(
+              "Por favor, preencha todos os campos obrigatórios antes de enviar.",
+            );
+            return;
+          }
+
+          // Coletar dados do formulário
+          const formData = new FormData(this);
+          const data = {};
+
+          // Converter FormData para objeto
+          for (let [key, value] of formData.entries()) {
+            data[key] = value;
+          }
+
+          // Adicionar valores dos campos "Outro"
+          document.querySelectorAll(".other-input").forEach((input) => {
+            const radioParent = input.closest(".radio-option");
+            const radio = radioParent?.querySelector('input[type="radio"]');
+            if (radio && radio.checked && input.value) {
+              data[radio.name] = input.value;
+            }
+          });
+
+          // Coletar dados das matrizes WHC
+          const whcEquipments = [
+            "whc01",
+            "whc02",
+            "whc08",
+            "whc10",
+            "whc11",
+            "whc03",
+            "whc04",
+            "whc05",
+            "whc06",
+            "whc07",
+            "ghx",
+          ];
+
+          data.whc_campo_magnetico = {};
+          data.whc_agua_lavagem = {};
+
+          whcEquipments.forEach((equipment) => {
+            const campoRadio = document.querySelector(
+              `input[name="campo_${equipment}"]:checked`,
+            );
+            const aguaRadio = document.querySelector(
+              `input[name="agua_${equipment}"]:checked`,
+            );
+
+            if (campoRadio) {
+              data.whc_campo_magnetico[equipment] = campoRadio.value;
+            }
+            if (aguaRadio) {
+              data.whc_agua_lavagem[equipment] = aguaRadio.value;
+            }
+          });
+
+          // Aqui você pode enviar os dados para um servidor
+          console.log("Dados do formulário:", data);
+
+          // Exibir mensagem de sucesso
+          alert("Relatório enviado com sucesso!");
+
+          // Opcional: resetar formulário
+          // this.reset();
+          // showPage(1);
         });
 
-        // ========================================
-        // ENVIO DO FORMULÁRIO
-        // ========================================
+      // Atalhos de teclado
+      document.addEventListener("keydown", function (e) {
+        // Ctrl + Seta Direita = Próxima página
+        if (e.ctrlKey && e.key === "ArrowRight") {
+          e.preventDefault();
+          nextPage();
+        }
 
-        const form = document.getElementById('solicitacaoForm');
-        const btnSubmit = document.getElementById('btnSubmit');
-        const alertSuccess = document.getElementById('alertSuccess');
-        const alertError = document.getElementById('alertError');
-        const errorMessage = document.getElementById('errorMessage');
+        // Ctrl + Seta Esquerda = Página anterior
+        if (e.ctrlKey && e.key === "ArrowLeft") {
+          e.preventDefault();
+          prevPage();
+        }
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Ctrl + Enter = Enviar (se na última página)
+        if (e.ctrlKey && e.key === "Enter" && currentPage === totalPages) {
+          e.preventDefault();
+          document
+            .getElementById("relatorioForm")
+            .dispatchEvent(new Event("submit"));
+        }
+      });
 
-            // Esconde alertas anteriores
-            alertSuccess.classList.remove('show');
-            alertError.classList.remove('show');
+      // Salvar progresso no localStorage (opcional)
+      function saveProgress() {
+        const formData = new FormData(document.getElementById("relatorioForm"));
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+          data[key] = value;
+        }
+        localStorage.setItem("relatorioTurnoProgress", JSON.stringify(data));
+        localStorage.setItem("relatorioTurnoPage", currentPage);
+      }
 
-            // Coleta os dados do formulário
-            const formData = {
-                nome: document.getElementById('nome').value,
-                email: document.getElementById('email').value,
-                setor: document.getElementById('setor').value,
-                tipo_solicitacao: document.getElementById('tipoSolicitacao').value,
-                necessita_justificativa: document.querySelector('input[name="necessitaJustificativa"]:checked').value,
-                justificativa: document.getElementById('justificativa').value || null,
-                urgencia: document.querySelector('input[name="urgencia"]:checked')?.value || 'Normal',
-                precisa_acompanhamento: document.querySelector('input[name="acompanhamento"]:checked').value,
-                telefone: document.getElementById('telefone').value || null,
-                melhor_horario: document.getElementById('melhorHorario').value || null,
-                observacoes: document.getElementById('observacoes').value || null,
-                data_solicitacao: new Date().toLocaleString('pt-BR'),
-                timestamp: new Date().toISOString()
-            };
+      // Carregar progresso do localStorage (opcional)
+      function loadProgress() {
+        const savedData = localStorage.getItem("relatorioTurnoProgress");
+        const savedPage = localStorage.getItem("relatorioTurnoPage");
 
-            // Loading state
-            btnSubmit.classList.add('loading');
-            btnSubmit.disabled = true;
-
-            try {
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    alertSuccess.classList.add('show');
-                    form.reset();
-                    // Esconde campos condicionais após reset
-                    campoJustificativa.classList.remove('show');
-                    campoAcompanhamento.classList.remove('show');
-                    // Scroll para o topo para ver mensagem de sucesso
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    throw new Error(`Erro HTTP: ${response.status}`);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                errorMessage.textContent = `Erro ao enviar: ${error.message}`;
-                alertError.classList.add('show');
-            } finally {
-                btnSubmit.classList.remove('loading');
-                btnSubmit.disabled = false;
+        if (savedData) {
+          const data = JSON.parse(savedData);
+          for (let [key, value] of Object.entries(data)) {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) {
+              if (input.type === "radio") {
+                const radioToCheck = document.querySelector(
+                  `[name="${key}"][value="${value}"]`,
+                );
+                if (radioToCheck) radioToCheck.checked = true;
+              } else {
+                input.value = value;
+              }
             }
-        });
+          }
+        }
 
-        // ========================================
-        // MÁSCARA DE TELEFONE
-        // ========================================
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            
-            if (value.length > 2) {
-                value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
-            }
-            if (value.length > 10) {
-                value = value.slice(0, 10) + '-' + value.slice(10);
-            }
-            
-            e.target.value = value;
-        });
+        if (savedPage) {
+          showPage(parseInt(savedPage));
+        }
+      }
+
+      // Auto-salvar a cada 30 segundos (opcional)
+      // setInterval(saveProgress, 30000);
     </script>
-</body>
+  </body>
 </html>
