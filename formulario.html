@@ -337,9 +337,7 @@
         box-shadow: 0 4px 12px rgba(240, 147, 251, 0.4);
       }
 
-      /* =====================================================
-         CSS ADICIONADO PARA O WEBHOOK
-         ===================================================== */
+      /* CSS para o Webhook */
       .btn-submit:disabled {
         background: #ccc;
         cursor: not-allowed;
@@ -390,7 +388,6 @@
       .toast.error {
         background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
       }
-      /* ===================================================== */
 
       /* Responsive */
       @media (max-width: 768px) {
@@ -1822,10 +1819,6 @@
             />
           </div>
 
-
-          
-
-
           <div class="form-group">
             <label>Espessamento <span class="required">*</span></label>
             <p class="field-description">Floculante Utilizado</p>
@@ -1988,19 +1981,16 @@
             </div>
           </div>
 
-          <div>
-            <label class="form-group">Densidade Alimentação Rejeito(g/cm3)</label>
-            
+          <div class="form-group">
+            <label for="densidade_alimentacao_rejeito">Densidade Alimentação Rejeito(g/cm3)</label>
             <input
-                 placeholder="Sua resposta"
-                type="text"
+              type="text"
               id="densidade_alimentacao_rejeito"
               name="densidade_alimentacao_rejeito"
-              required
-            >
+              placeholder="Sua resposta"
+            />
           </div>
 
-      
           <div class="form-group">
             <label
               >Filtragem Concentrado <span class="required">*</span></label
@@ -2027,9 +2017,7 @@
             </div>
           </div>
 
-
-
-           <div class="form-group">
+          <div class="form-group">
             <label for="densidade_alimentacao_filtragem_concentrado"
               >Densidade Alimentação Filtragem Concentrado(g/cm3)
               <span class="required">*</span></label
@@ -2041,9 +2029,6 @@
               required
             />
           </div>
-
-          
-         
 
           <div class="form-group">
             <label>Amostrador TC-20 <span class="required">*</span></label>
@@ -2127,17 +2112,15 @@
             <button type="button" class="btn-back" onclick="prevPage()">
               Voltar
             </button>
-            <!-- ALTERADO: Adicionado id="submitBtn" -->
             <button type="submit" class="btn-submit" id="submitBtn">Enviar</button>
           </div>
         </div>
       </form>
     </div>
 
-    <!-- ADICIONADO: Toast Notification -->
+    <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="script-completo.js"></script>
     <script>
       // Estado atual do formulário
       let currentPage = 1;
@@ -2309,50 +2292,8 @@
         }
       });
 
-      // Salvar progresso no localStorage (opcional)
-      function saveProgress() {
-        const formData = new FormData(document.getElementById("relatorioForm"));
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-          data[key] = value;
-        }
-        localStorage.setItem("relatorioTurnoProgress", JSON.stringify(data));
-        localStorage.setItem("relatorioTurnoPage", currentPage);
-      }
-
-      // Carregar progresso do localStorage (opcional)
-      function loadProgress() {
-        const savedData = localStorage.getItem("relatorioTurnoProgress");
-        const savedPage = localStorage.getItem("relatorioTurnoPage");
-
-        if (savedData) {
-          const data = JSON.parse(savedData);
-          for (let [key, value] of Object.entries(data)) {
-            const input = document.querySelector(`[name="${key}"]`);
-            if (input) {
-              if (input.type === "radio") {
-                const radioToCheck = document.querySelector(
-                  `[name="${key}"][value="${value}"]`,
-                );
-                if (radioToCheck) radioToCheck.checked = true;
-              } else {
-                input.value = value;
-              }
-            }
-          }
-        }
-
-        if (savedPage) {
-          showPage(parseInt(savedPage));
-        }
-      }
-
-      // Auto-salvar a cada 30 segundos (opcional)
-      // setInterval(saveProgress, 30000);
-
-
       // =====================================================
-      // CÓDIGO DO WEBHOOK - INÍCIO
+      // CÓDIGO DO WEBHOOK
       // =====================================================
       const WEBHOOK_CONFIG = {
         url: 'https://herculano-n8n.zm9in4.easypanel.host/webhook-test/formulario-solicitacao',
@@ -2374,57 +2315,19 @@
       }
 
       // Coletar todos os dados do formulário
-function collectFormData() {
-  const formData = new FormData(document.getElementById('relatorioForm'));
-  const data = {};
-
-  // Coletar todos os campos do FormData
-  for (let [key, value] of formData.entries()) {
-    // Pular os campos campo_* e agua_* pois serão agrupados depois
-    if (!key.startsWith('campo_') && !key.startsWith('agua_')) {
-      data[key] = value;
-    }
-  }
-
-  // Coletar campos "Outro" que foram preenchidos
-          document.querySelectorAll('.other-input').forEach(input => {
-            const radioParent = input.closest('.radio-option');
-            const radio = radioParent?.querySelector('input[type="radio"]');
-            if (radio && radio.checked && input.value.trim()) {
-              data[radio.name] = input.value.trim();
-            }
-          });
-
-          // Agrupar campos WHC em objetos separados
-          const whcEquipments = ['whc01', 'whc02', 'whc03', 'whc04', 'whc05', 'whc06', 'whc07', 'whc08', 'whc10', 'whc11', 'ghx'];
-          data.whc_campo_magnetico = {};
-          data.whc_agua_lavagem = {};
-
-          whcEquipments.forEach(equipment => {
-            const campoRadio = document.querySelector(`input[name="campo_${equipment}"]:checked`);
-            const aguaRadio = document.querySelector(`input[name="agua_${equipment}"]:checked`);
-            if (campoRadio) {
-              data.whc_campo_magnetico[equipment] = campoRadio.value;
-            }
-            if (aguaRadio) {
-              data.whc_agua_lavagem[equipment] = aguaRadio.value;
-            }
-          });
-
-          // Adicionar metadados
-          data.timestamp_envio = new Date().toISOString();
-          data.formulario = 'Relatório de Turno - Processo';
-
-          return data;
-        }
-        
+      function collectFormData() {
         const formData = new FormData(document.getElementById('relatorioForm'));
         const data = {};
 
+        // Coletar todos os campos do FormData
         for (let [key, value] of formData.entries()) {
-          data[key] = value;
+          // Pular os campos campo_* e agua_* pois serão agrupados depois
+          if (!key.startsWith('campo_') && !key.startsWith('agua_')) {
+            data[key] = value;
+          }
         }
 
+        // Coletar campos "Outro" que foram preenchidos
         document.querySelectorAll('.other-input').forEach(input => {
           const radioParent = input.closest('.radio-option');
           const radio = radioParent?.querySelector('input[type="radio"]');
@@ -2433,7 +2336,8 @@ function collectFormData() {
           }
         });
 
-        const whcEquipments = ['whc01', 'whc02', 'whc08', 'whc10', 'whc11', 'whc03', 'whc04', 'whc05', 'whc06', 'whc07', 'ghx'];
+        // Agrupar campos WHC em objetos separados
+        const whcEquipments = ['whc01', 'whc02', 'whc03', 'whc04', 'whc05', 'whc06', 'whc07', 'whc08', 'whc10', 'whc11', 'ghx'];
         data.whc_campo_magnetico = {};
         data.whc_agua_lavagem = {};
 
@@ -2448,6 +2352,7 @@ function collectFormData() {
           }
         });
 
+        // Adicionar metadados
         data.timestamp_envio = new Date().toISOString();
         data.formulario = 'Relatório de Turno - Processo';
 
@@ -2514,9 +2419,6 @@ function collectFormData() {
           showToast(`✗ Erro ao enviar: ${result.error}`, 'error');
         }
       });
-      // =====================================================
-      // CÓDIGO DO WEBHOOK - FIM
-      // =====================================================
     </script>
   </body>
 </html>
