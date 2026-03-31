@@ -11,7 +11,7 @@ const totalPages = 8;
 // CONFIGURAÇÃO DO WEBHOOK
 // =====================================================
 const WEBHOOK_CONFIG = {
-  url: 'https://herculano-n8n.zm9in4.easypanel.host/webhook/relatorio-turno', // Ajuste para sua URL
+  url: 'https://n8n.wellia.cloud/webhook-test/formulario-solicitacao', // Ajuste para sua URL
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
