@@ -11,7 +11,7 @@ const totalPages = 8;
 // CONFIGURAÇÃO DO WEBHOOK
 // =====================================================
 const WEBHOOK_CONFIG = {
-  url: 'https://n8n-webhook.zzoohs.easypanel.host/webhook/formulario-solicitacao', // Ajuste para sua URL
+  url:  'https://n8n-webhook.zzoohs.easypanel.host/webhook/formulario-solicitacao', // Ajuste para sua URL
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -522,6 +522,73 @@ window.addEventListener('online', async () => {
 window.addEventListener('offline', () => {
   console.log('[Conexão] Perdida');
   showToast('⚠ Sem conexão. Dados serão salvos localmente.', 'error');
+});
+
+// =====================================================
+// AUTOMAÇÃO: STATUS DA SEÇÃO - BYPASS (MANUTENÇÃO)
+// =====================================================
+document.addEventListener("DOMContentLoaded", function() {
+  // Elementos para automação
+  const statusRadios = document.querySelectorAll('input[name="status_secao_espirais"]');
+
+  const camposAutoPreench = [
+    'pressao_trabalho_espirais',
+    'densidade_alim_espirais',
+    'densidade_overflow_espirais',
+    'densidade_underflow_espirais',
+    'pistas_rougher',
+    'ton_pista_rougher',
+    'pistas_cleaner',
+    'ton_pista_cleaner'
+  ];
+
+  const camposNumericos = [
+    { name: 'ciclones_primaria', inputs: document.querySelectorAll('input[name="ciclones_primaria"]') },
+    { name: 'bancos_rougher', inputs: document.querySelectorAll('input[name="bancos_rougher"]') }
+  ];
+
+  statusRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'Bypass (Manutenção)') {
+        // Preencher campos de pressão e densidade com "bypass"
+        camposAutoPreench.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          if (field) {
+            field.value = 'bypass';
+            field.disabled = true;
+          }
+        });
+
+        // Remover required dos campos numéricos
+        camposNumericos.forEach(grupo => {
+          grupo.inputs.forEach(input => {
+            input.required = false;
+          });
+        });
+
+        console.log('[Bypass] Campos preenchidos e campos numéricos tornados opcionais');
+
+      } else if (this.value === 'Operacional') {
+        // Limpar campos de pressão e densidade
+        camposAutoPreench.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          if (field) {
+            field.value = '';
+            field.disabled = false;
+          }
+        });
+
+        // Adicionar required aos campos numéricos
+        camposNumericos.forEach(grupo => {
+          grupo.inputs.forEach(input => {
+            input.required = true;
+          });
+        });
+
+        console.log('[Operacional] Campos limpos e campos numéricos tornados obrigatórios');
+      }
+    });
+  });
 });
 
 // =====================================================

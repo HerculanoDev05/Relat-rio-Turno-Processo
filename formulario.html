@@ -508,6 +508,20 @@
           <h2 class="section-title">Espirais</h2>
 
           <div class="form-group">
+            <label>Status da Seção <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="status_secao_espirais" value="Operacional" required />
+                <span>Operacional</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="status_secao_espirais" value="Bypass (Manutenção)" />
+                <span>Bypass</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label>Ciclonagem Primária <span class="required">*</span></label>
             <p class="field-description">N° de Ciclones em operação</p>
             <div class="radio-group">
@@ -516,7 +530,6 @@
                   type="radio"
                   name="ciclones_primaria"
                   value="1"
-                  required
                 />
                 <span>1</span>
               </label>
@@ -600,7 +613,7 @@
             <p class="field-description">N° de Bancos em operação</p>
             <div class="radio-group">
               <label class="radio-option">
-                <input type="radio" name="bancos_rougher" value="6" required />
+                <input type="radio" name="bancos_rougher" value="6" />
                 <span>6</span>
               </label>
               <label class="radio-option">
