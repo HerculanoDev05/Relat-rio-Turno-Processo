@@ -8,7 +8,7 @@ let currentPage = 1;
 const totalPages = 8;
 
 // =====================================================
-// CONFIGURAÇÃO DO WEBHOOK
+// CONFIGURAÇÃO DO WEBHOOK PARA ENVIO FORMULARIO
 // =====================================================
 const WEBHOOK_CONFIG = {
   url:  'https://n8n.grupoherculano.tech/webhook/formulario-solicitacao', // Ajuste para sua URL
